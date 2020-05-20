@@ -47,6 +47,12 @@ namespace Blog.Repository.Base
             _unitOfWork = unitOfWork;
             _dbBase = unitOfWork.GetDbClient();
         }
+        public BaseRepository()
+        {
+            //_unitOfWork = unitOfWork;
+            //_dbBase = unitOfWork.GetDbClient();
+        }
+
 
         public async Task<TEntity> QueryById(object objId)
         {

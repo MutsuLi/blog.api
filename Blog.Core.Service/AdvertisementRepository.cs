@@ -10,6 +10,7 @@ namespace Blog.Services
 {
     public class AdvertisementServices : BaseServices<Advertisement>, IAdvertisementServices
     {
+
         public int Add(Advertisement model)
         {
             throw new NotImplementedException();
