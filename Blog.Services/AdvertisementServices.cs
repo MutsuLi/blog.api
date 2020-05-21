@@ -5,40 +5,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using Blog.IRepository;
 
 namespace Blog.Services
 {
     public class AdvertisementServices : BaseServices<Advertisement>, IAdvertisementServices
     {
 
+        public IAdvertisementRepository _dal;
+        public AdvertisementServices(IAdvertisementRepository dal)
+        {
+            _dal = dal;
+        }
+
         public int Add(Advertisement model)
         {
-            throw new NotImplementedException();
+            return _dal.Add(model);
         }
 
         public bool Delete(Advertisement model)
         {
-            throw new NotImplementedException();
+            return _dal.Delete(model);
         }
 
         public List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression)
         {
-            throw new NotImplementedException();
+            return _dal.Query(whereExpression);
         }
 
-        public void ReturnExp()
-        {
-            throw new NotImplementedException();
-        }
 
         public int Sum(int i, int j)
         {
-            throw new NotImplementedException();
+            return _dal.Sum(i, j);
         }
 
         public bool Update(Advertisement model)
         {
-            throw new NotImplementedException();
+            return _dal.Update(model);
         }
     }
 }

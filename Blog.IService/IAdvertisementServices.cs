@@ -16,7 +16,5 @@ namespace Blog.IServices
         bool Delete(Advertisement model);
         bool Update(Advertisement model);
         List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression);
-
-        void ReturnExp();
     }
 }

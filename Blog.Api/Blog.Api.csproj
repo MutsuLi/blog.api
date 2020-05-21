@@ -23,6 +23,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Blog.Middleware\Blog.Middleware.csproj" />
     <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
+    <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
+    <ProjectReference Include="..\Blog.Services\Blog.Services.csproj" />
   </ItemGroup>
 
 

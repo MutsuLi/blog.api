@@ -9,7 +9,7 @@ namespace Blog.Api.Controllers
     /// <summary>
     ///  todoitem
     /// </summary>
-    [Route("api/auth")]
+    [Route("api/Services")]
     [ApiController]
 
     public class UserController : ControllerBase {

@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
+    <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
+    <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
-    <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
-    <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
-  </ItemGroup>
 
 </Project>
