@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using Blog.IRepository;
+using Blog.Repository;
 
 namespace Blog.Services
 {
     public class AdvertisementServices : BaseServices<Advertisement>, IAdvertisementServices
     {
 
-        public IAdvertisementRepository _dal;
-        public AdvertisementServices(IAdvertisementRepository dal)
-        {
-            _dal = dal;
-        }
-
+        //public IAdvertisementRepository _dal;
+        //public AdvertisementServices(AdvertisementRepository dal)
+        //{
+        //    _dal = dal;
+        //}
+        public IAdvertisementRepository _dal = new AdvertisementRepository();
         public int Add(Advertisement model)
         {
             return _dal.Add(model);

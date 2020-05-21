@@ -17,7 +17,7 @@ namespace Blog.Api.Controllers
     [Produces("application/json")]
     [Route("api/Blog")]
     [ApiController]
-    public class BlogController : Controller
+    public class BlogController : ControllerBase
     {
 
         private readonly IAdvertisementServices _IAdvertisementServices;

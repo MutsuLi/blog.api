@@ -7,7 +7,7 @@ namespace Blog.Repository
 {
     public class BaseDBConfig
     {
-        public static string ConnectionString = File.ReadAllText(@"D:\my-file\dbCountPsw1.txt").Trim();
+        public static string ConnectionString = "server=127.0.0.1;uid=root;pwd=root;database=BlogDB";
 
         //正常格式是
 

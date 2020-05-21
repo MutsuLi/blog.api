@@ -2,7 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Blog.IRepository;
+using Blog.IServices;
 using Blog.Model.Models;
+using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +34,7 @@ namespace Blog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            services.AddScoped<IAdvertisementServices, AdvertisementServices>();
             services.AddControllers();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

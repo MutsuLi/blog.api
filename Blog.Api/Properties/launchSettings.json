@@ -20,7 +20,7 @@
     "Blog.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "https://127.0.0.1:8100/swagger/index.html",
       "applicationUrl": "https://0.0.0.0:8101;https://0.0.0.0:8100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

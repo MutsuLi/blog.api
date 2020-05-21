@@ -27,7 +27,7 @@ namespace Blog.Repository
         }
         public AdvertisementRepository()
         {
-            DbContext.Init(BaseDBConfig.ConnectionString);
+            DbContext.Init(BaseDBConfig.ConnectionString,DbType.MySql);
             context = DbContext.GetDbContext();
             db = context.Db;
             entityDB = context.GetEntityDB<Advertisement>(db);

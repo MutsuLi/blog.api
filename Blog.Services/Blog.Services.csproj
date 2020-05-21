@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
     <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
     <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
+    <ProjectReference Include="..\BLog.Repository\BLog.Repository.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
