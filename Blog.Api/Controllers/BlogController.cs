@@ -1,12 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Blog.MiddleWare;
 using Blog.Model.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Blog.IServices;
 using System.Collections.Generic;
-using Blog.Services;
 
 namespace Blog.Api.Controllers
 {
@@ -21,9 +19,11 @@ namespace Blog.Api.Controllers
     {
 
         private readonly IAdvertisementServices _IAdvertisementServices;
-        public BlogController(IAdvertisementServices IAdvertisementServices)
+        private readonly IBlogArticleServices _IBlogArticleServices;
+        public BlogController(IAdvertisementServices IAdvertisementServices,IBlogArticleServices IBlogArticleServices)
         {
             _IAdvertisementServices = IAdvertisementServices;
+            _IBlogArticleServices= IBlogArticleServices;
         }
 
         // GET: api/Blog/5
@@ -36,6 +36,19 @@ namespace Blog.Api.Controllers
         public List<Advertisement> Get(int id)
         {
             return _IAdvertisementServices.Query(d => d.Id == id);
+        }
+
+
+        /// <summary>
+        /// 获取博客列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetBlogs")]
+        public async Task<List<BlogArticle>> GetBlogs()
+        {
+
+            return await _IBlogArticleServices.getBlogs();
         }
 
     }

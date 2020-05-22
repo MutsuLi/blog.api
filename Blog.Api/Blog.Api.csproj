@@ -8,6 +8,9 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
@@ -21,10 +24,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blog.Middleware\Blog.Middleware.csproj" />
-    <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
     <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
-    <ProjectReference Include="..\Blog.Services\Blog.Services.csproj" />
+    <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
   </ItemGroup>
 
 

@@ -1,7 +1,10 @@
 using System.Linq;
+using System;
 using System.Threading.Tasks;
 using Blog.IRepository.Base;
 using Blog.IRepository.IUnitOfWork;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using SqlSugar;
 
 namespace Blog.Repository.Base
@@ -74,6 +77,30 @@ namespace Blog.Repository.Base
             return await _db.Queryable<TEntity>().WithCacheIF(blnUseCache).In(objId).SingleAsync();
         }
 
+        /// <summary>
+        /// 功能描述:查询数据列表
+        /// 作　　者:Blog.Core
+        /// </summary>
+        /// <param name="whereExpression">whereExpression</param>
+        /// <returns>数据列表</returns>
+        public async Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).ToListAsync();
+        }
+
+
+        /// <summary>
+        /// 功能描述:查询一个列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="orderByExpression"></param>
+        /// <param name="isAsc"></param>
+        /// <returns></returns>
+        public async Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression, bool isAsc = true)
+        {
+            //return await Task.Run(() => _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, isAsc ? OrderByType.Asc : OrderByType.Desc).WhereIF(whereExpression != null, whereExpression).ToList());
+            return await _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, isAsc ? OrderByType.Asc : OrderByType.Desc).WhereIF(whereExpression != null, whereExpression).ToListAsync();
+        }
 
         /// <summary>
         /// 根据实体删除一条数据

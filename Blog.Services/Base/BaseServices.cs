@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Blog.IRepository.Base;
 using Blog.IServices.Base;
+using System.Linq.Expressions;
 
 namespace Blog.Services.Base
 {
@@ -15,6 +16,9 @@ namespace Blog.Services.Base
         {
             throw new NotImplementedException();
         }
+
+
+
 
         Task<TEntity> IBaseServices<TEntity>.QueryById(object objId)
         {

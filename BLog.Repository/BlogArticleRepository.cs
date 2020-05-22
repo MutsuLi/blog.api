@@ -9,12 +9,12 @@ using SqlSugar;
 
 namespace Blog.Repository
 {
-    public class AdvertisementRepository : BaseRepository<Advertisement>, IAdvertisementRepository
+   public class BlogArticleRepository : BaseRepository<BlogArticle>, IBlogArticleRepository
     {
 
         private DbContext context;
         private SqlSugarClient db;
-        private SimpleClient<Advertisement> entityDB;
+        private SimpleClient<BlogArticle> entityDB;
         internal SqlSugarClient Db
         {
             get { return db; }
@@ -25,12 +25,12 @@ namespace Blog.Repository
             get { return context; }
             set { context = value; }
         }
-        public AdvertisementRepository()
+        public BlogArticleRepository()
         {
             DbContext.Init(BaseDBConfig.ConnectionString, DbType.MySql);
             context = DbContext.GetDbContext();
             db = context.Db;
-            entityDB = context.GetEntityDB<Advertisement>(db);
+            entityDB = context.GetEntityDB<BlogArticle>(db);
         }
         //public AdvertisementRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         //{
@@ -38,19 +38,19 @@ namespace Blog.Repository
 
         //}
 
-        public int Add(Advertisement model)
+        public int Add(BlogArticle model)
         {
             var i = db.Insertable(model).ExecuteReturnBigIdentity();
             return i.ObjToInt();
         }
 
-        public bool Delete(Advertisement model)
+        public bool Delete(BlogArticle model)
         {
             var i = db.Deleteable(model).ExecuteCommand();
             return i > 0;
         }
 
-        public List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression)
+        public List<BlogArticle> Query(Expression<Func<BlogArticle, bool>> whereExpression)
         {
             return entityDB.GetList(whereExpression);
         }
@@ -60,7 +60,7 @@ namespace Blog.Repository
             return i + j;
         }
 
-        public bool Update(Advertisement model)
+        public bool Update(BlogArticle model)
         {
             var i = db.Updateable(model).ExecuteCommand();
             return i > 0;

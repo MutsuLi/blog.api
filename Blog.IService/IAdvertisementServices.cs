@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blog.IServices
 {
-    public interface IAdvertisementServices :IBaseServices<Advertisement>
+    public interface IAdvertisementServices : IBaseServices<Advertisement>
     {
         int Sum(int i, int j);
         int Add(Advertisement model);
