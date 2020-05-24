@@ -1,10 +1,7 @@
-using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using Blog.IServices;
 using Blog.Model.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Blog.IServices;
-using System.Collections.Generic;
 
 namespace Blog.Api.Controllers
 {
@@ -45,10 +42,10 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetBlogs")]
-        public async Task<List<BlogArticle>> GetBlogs()
+        public List<BlogArticle> getBlogs()
         {
 
-            return await _IBlogArticleServices.getBlogs();
+           return  _IBlogArticleServices.getBlogs();
         }
 
     }

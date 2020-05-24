@@ -24,6 +24,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Blog.Common\Blog.Common.csproj" />
     <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />
     <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
   </ItemGroup>

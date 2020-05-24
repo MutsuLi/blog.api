@@ -16,6 +16,6 @@ namespace Blog.IServices
         bool Delete(BlogArticle model);
         bool Update(BlogArticle model);
         List<BlogArticle> Query(Expression<Func<BlogArticle, bool>> whereExpression);
-        Task<List<BlogArticle>> getBlogs();
+       List<BlogArticle> getBlogs();
     }
 }

@@ -1,14 +1,13 @@
-using Autofac;
-using Autofac.Extras.DynamicProxy;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Collections.Generic;
-using log4net;
-using log4net.Repository;
-using Blog.IServices;
+using Autofac;
+using Autofac.Extras.DynamicProxy;
+using Blog.Api.AOP;
+using Blog.Core.Extensions;
 using Blog.Model.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -21,9 +20,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-
-
-
 
 namespace Blog.Api
 {
@@ -44,7 +40,6 @@ namespace Blog.Api
             var basePath = AppContext.BaseDirectory;
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
 
-
             #region 带有接口层的服务注入
 
 
@@ -62,6 +57,10 @@ namespace Blog.Api
 
             // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
             var cacheType = new List<Type>();
+            builder.RegisterType<BlogLogAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册
+            cacheType.Add(typeof(BlogLogAOP));
+            builder.RegisterType<BlogCacheAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册        
+            cacheType.Add(typeof(BlogCacheAOP));
             // if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
             // {
             //     builder.RegisterType<BlogRedisCacheAOP>();
@@ -135,6 +134,8 @@ namespace Blog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+
+            services.AddMemoryCacheSetup();
             services.AddControllers();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

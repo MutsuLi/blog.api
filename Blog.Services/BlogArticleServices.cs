@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Blog.IRepository;
 using System.Threading.Tasks;
+using Blog.Common;
 
 namespace Blog.Services
 {
@@ -47,10 +48,27 @@ namespace Blog.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<BlogArticle>> getBlogs()
+        ///   
+
+       [Caching(AbsoluteExpiration=10)]
+        public List<BlogArticle> getBlogs()
         {
-            var bloglist = await _dal.Query(a => a.bID > 0, a => a.bID);
-            return bloglist;
+           return new List<BlogArticle>()
+            {
+                new BlogArticle(){
+                    bID=1,
+                    bsubmitter="test",
+                    btitle="test2",
+                    bcategory="1",
+                    bcontent="2",
+                    btraffic=10,
+                    bcommentNum=1100,
+                    bUpdateTime=DateTime.Now,
+                    bCreateTime=DateTime.Now,
+
+
+                }
+            };
         }
     }
 }
