@@ -9,13 +9,9 @@ using System.Threading.Tasks;
 
 namespace Blog.IServices
 {
-    public interface IBlogArticleServices
+    public interface IBlogArticleServices : IBaseServices<BlogArticle>
     {
-        int Sum(int i, int j);
-        int Add(BlogArticle model);
-        bool Delete(BlogArticle model);
-        bool Update(BlogArticle model);
-        List<BlogArticle> Query(Expression<Func<BlogArticle, bool>> whereExpression);
-       List<BlogArticle> getBlogs();
+        Task<List<BlogArticle>> getRedis();
+        Task<List<BlogArticle>> getBlogs();
     }
 }

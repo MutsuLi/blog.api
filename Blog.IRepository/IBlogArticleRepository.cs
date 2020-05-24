@@ -11,11 +11,6 @@ namespace Blog.IRepository
 {
     public interface IBlogArticleRepository: IBaseRepository<BlogArticle>
     {
-        int Sum(int i, int j);
 
-        int Add(BlogArticle model);
-        bool Delete(BlogArticle model);
-        bool Update(BlogArticle model);
-        List<BlogArticle> Query(Expression<Func<BlogArticle, bool>> whereExpression);
     }
 }

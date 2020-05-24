@@ -7,8 +7,11 @@ using System.Text;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Api.AOP;
+using Blog.Common;
+using Blog.Common.Config;
 using Blog.Core.Extensions;
 using Blog.Model.Models;
+using log4net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,15 +36,15 @@ namespace Blog.Api
         public IConfiguration Configuration { get; }
         // private static readonly ILog log =LogManager.GetLogger(typeof(GlobalExceptionsFilter));
 
-        // 注意在CreateDefaultBuilder中，添加Autofac服务工厂
+        private IServiceCollection _services;
         private List<Type> tsDIAutofac = new List<Type>();
+        private static readonly ILog log = LogManager.GetLogger(typeof(Startup));
         public void ConfigureContainer(ContainerBuilder builder)
         {
             var basePath = AppContext.BaseDirectory;
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
 
             #region 带有接口层的服务注入
-
 
             var servicesDllFile = Path.Combine(basePath, "Blog.Services.dll");
             var repositoryDllFile = Path.Combine(basePath, "Blog.Repository.dll");
@@ -52,8 +55,6 @@ namespace Blog.Api
                 // log.Error(msg);
                 throw new Exception(msg);
             }
-
-
 
             // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
             var cacheType = new List<Type>();
@@ -134,7 +135,8 @@ namespace Blog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-
+            services.AddSingleton(new Appsettings(Configuration));
+            services.AddScoped<IRedisCacheManager, RedisCacheManager>();
             services.AddMemoryCacheSetup();
             services.AddControllers();
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -209,6 +211,7 @@ namespace Blog.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

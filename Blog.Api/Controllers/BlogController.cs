@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blog.IServices;
 using Blog.Model.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -30,9 +31,9 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
-        public List<Advertisement> Get(int id)
+        public async Task<List<Advertisement>> Get(int id)
         {
-            return _IAdvertisementServices.Query(d => d.Id == id);
+            return await _IAdvertisementServices.Query(d => d.Id == id);
         }
 
 
@@ -42,11 +43,22 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetBlogs")]
-        public List<BlogArticle> getBlogs()
+        public async Task<List<BlogArticle>> getBlogs()
         {
 
-           return  _IBlogArticleServices.getBlogs();
+           return await  _IBlogArticleServices.getBlogs();
         }
 
+
+        /// <summary>
+        /// 获取博客列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("redis")]
+        public async Task<List<BlogArticle>> getRedis()
+        {
+            return await _IBlogArticleServices.getRedis();
+        }
     }
 }

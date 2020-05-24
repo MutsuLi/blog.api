@@ -1,11 +1,8 @@
+using System;
 using Blog.IRepository.IUnitOfWork;
 using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Blog.Core.Repository.UnitOfWork
+namespace Blog.Repository.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

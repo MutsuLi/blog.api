@@ -46,6 +46,9 @@ namespace Blog.Api.AOP
                     _cache.Set(cacheKey, invocation.ReturnValue);
                 }
             }
+            else {
+                invocation.Proceed();
+            }      
         }
     }
 }

@@ -11,36 +11,11 @@ namespace Blog.Services
 {
     public class AdvertisementServices : BaseServices<Advertisement>, IAdvertisementServices
     {
-
-        public IAdvertisementRepository _dal;
+        IAdvertisementRepository _dal;
         public AdvertisementServices(IAdvertisementRepository dal)
         {
-           _dal = dal;
-        }
-        public int Add(Advertisement model)
-        {
-            return _dal.Add(model);
-        }
-
-        public bool Delete(Advertisement model)
-        {
-            return _dal.Delete(model);
-        }
-
-        public List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression)
-        {
-            return _dal.Query(whereExpression);
-        }
-
-
-        public int Sum(int i, int j)
-        {
-            return _dal.Sum(i, j);
-        }
-
-        public bool Update(Advertisement model)
-        {
-            return _dal.Update(model);
+            this._dal = dal;
+            base.BaseDal = dal;
         }
     }
 }
