@@ -36,7 +36,7 @@ namespace Blog.Api
         public IConfiguration Configuration { get; }
         // private static readonly ILog log =LogManager.GetLogger(typeof(GlobalExceptionsFilter));
 
-        private IServiceCollection _services;
+        //private IServiceCollection _services;
         private List<Type> tsDIAutofac = new List<Type>();
         private static readonly ILog log = LogManager.GetLogger(typeof(Startup));
         public void ConfigureContainer(ContainerBuilder builder)
@@ -138,6 +138,7 @@ namespace Blog.Api
             services.AddSingleton(new Appsettings(Configuration));
             services.AddScoped<IRedisCacheManager, RedisCacheManager>();
             services.AddMemoryCacheSetup();
+            services.AddSqlsugarSetup();
             services.AddControllers();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

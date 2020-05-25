@@ -15,7 +15,7 @@ namespace Blog.Services
 
         private IRedisCacheManager _redisCacheManager;
         IBlogArticleRepository _dal;
-        public BlogArticleServices(IBlogArticleRepository dal,IRedisCacheManager redisCacheManager)
+        public BlogArticleServices(IBlogArticleRepository dal, IRedisCacheManager redisCacheManager)
         {
             _redisCacheManager = redisCacheManager;
             this._dal = dal;
@@ -72,10 +72,11 @@ namespace Blog.Services
         public async Task<List<BlogArticle>> getRedis()
         {
             var connect = Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "ConnectionString" });//按照层级的
-
-            return new List<BlogArticle>()
+            return await Task.Run(() =>
             {
-                new BlogArticle(){
+                return new List<BlogArticle>()
+                 {
+                    new BlogArticle(){
                     bID=1,
                     bsubmitter="test",
                     btitle="test2",
@@ -85,8 +86,10 @@ namespace Blog.Services
                     bcommentNum=1100,
                     bUpdateTime=DateTime.Now,
                     bCreateTime=DateTime.Now
-                }
-            };
+                 }
+                };
+            });
+
         }
 
     }
