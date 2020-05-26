@@ -1,5 +1,6 @@
 using Blog.IServices.Base;
 using Blog.Model.Models;
+using Blog.Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace Blog.IServices
     {
         Task<List<BlogArticle>> getRedis();
         Task<List<BlogArticle>> getBlogs();
+
+        Task<BlogViewModels> getBlogDetails(int id);
     }
 }

@@ -18,6 +18,7 @@ namespace Blog.Api.Controllers
 
         private readonly IAdvertisementServices _IAdvertisementServices;
         private readonly IBlogArticleServices _IBlogArticleServices;
+
         public BlogController(IAdvertisementServices IAdvertisementServices,IBlogArticleServices IBlogArticleServices)
         {
             _IAdvertisementServices = IAdvertisementServices;
@@ -31,9 +32,11 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
-        public async Task<List<Advertisement>> Get(int id)
+        public async Task<object> Get(int id)
         {
-            return await _IAdvertisementServices.Query(d => d.Id == id);
+            var model = await _IBlogArticleServices.getBlogDetails(id);//调用该方法，这里 _blogArticleServices 是依赖注入的实例，不是类
+            var data = new { success = true, data = model };
+            return data;
         }
 
 
@@ -60,5 +63,8 @@ namespace Blog.Api.Controllers
         {
             return await _IBlogArticleServices.getRedis();
         }
+
+     
+
     }
 }

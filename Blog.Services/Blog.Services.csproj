@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
     <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
     <ProjectReference Include="..\Blog.IService\Blog.IServices.csproj" />

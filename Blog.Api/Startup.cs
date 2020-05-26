@@ -9,6 +9,7 @@ using Autofac.Extras.DynamicProxy;
 using Blog.Api.AOP;
 using Blog.Common;
 using Blog.Common.Config;
+using Blog.Common.LogHelper;
 using Blog.Core.Extensions;
 using Blog.Model.Models;
 using log4net;
@@ -34,6 +35,7 @@ namespace Blog.Api
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; }
         // private static readonly ILog log =LogManager.GetLogger(typeof(GlobalExceptionsFilter));
 
         //private IServiceCollection _services;
@@ -136,10 +138,12 @@ namespace Blog.Api
         {
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddSingleton(new Appsettings(Configuration));
+            services.AddSingleton(new LogLock(Env.ContentRootPath));
             services.AddScoped<IRedisCacheManager, RedisCacheManager>();
             services.AddMemoryCacheSetup();
             services.AddSqlsugarSetup();
             services.AddControllers();
+            services.AddAutoMapperSetup();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
