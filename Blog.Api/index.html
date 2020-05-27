@@ -1,4 +1,4 @@
-<!--<script async="async" id="mini-profiler" src="/profiler/includes.min.js?v=4.1.0+c940f0f28d"
+﻿<!--<script async="async" id="mini-profiler" src="/profiler/includes.min.js?v=4.1.0+c940f0f28d"
         data-version="4.1.0+c940f0f28d" data-path="/profiler/"
         data-current-id="" data-ids="" data-position="Left"
         data-authorized="true" data-max-traces="15" data-toggle-shortcut="Alt+P"
@@ -61,8 +61,6 @@
 </head>
 
 <body>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        style="position:absolute;width:0;height:0">
         <defs>
             <symbol viewBox="0 0 20 20" id="unlocked">
                 <path
@@ -124,24 +122,6 @@
 
             // Apply OAuth config
             ui.initOAuth(oauthConfigObject);
-
-
-            int = setInterval(function () {
-                getData();
-            }, 1000);
-            $("img").attr("src", "./logo/favicon-32x32.png");
-        }
-
-        function getData() {
-
-            if ($(".qqgroup").length <= 0) {
-                $('.info').after(
-                    "<div class='qqgroup'><img src='https://images.cnblogs.com/cnblogs_com/laozhang-is-phi/1284763/o_WeChat%20Screenshot_20191021142452.png' alt='QQ二维码' style='width: 450px;'><div style=\"margin-left: 16px;color: #4990e2;\"><a href=\"../allservices\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"link\">查看所有注册的服务</a></div></div><div style='clear: both;'></div>"
-                    );
-                console.log(2);
-                clearInterval(int);
-            }
-
         }
     </script>
 </body>

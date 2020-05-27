@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blog.Model.Models
+namespace Blog.Models
 {
     /// <summary>
     /// 通用分页信息类

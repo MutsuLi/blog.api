@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Blog.Model.Models;
+using Blog.Models;
 using SqlSugar;
 
 namespace Blog.IServices.Base

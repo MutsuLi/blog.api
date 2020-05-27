@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blog.Common.Config;
+using Blog.Common;
 using Blog.Common.DB;
 using Blog.Common.LogHelper;
 using Blog.Core.Common.DB;

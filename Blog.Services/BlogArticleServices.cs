@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Common;
-using Blog.Common.Config;
 using Blog.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;

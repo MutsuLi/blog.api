@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System;
@@ -7,8 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Blog.Common.Config
+namespace Blog.Common
 {
+    /// <summary>
+    /// appsettings.json操作类
+    /// </summary>
     public class Appsettings
     {
         static IConfiguration Configuration { get; set; }
@@ -19,7 +22,7 @@ namespace Blog.Common.Config
             string Path = "appsettings.json";
 
             //如果你把配置文件 是 根据环境变量来分开了，可以这样写
-            //string Path = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
+            //Path = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
 
             Configuration = new ConfigurationBuilder()
                .SetBasePath(contentPath)

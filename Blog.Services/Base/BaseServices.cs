@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Blog.Model.Models;
 using System.Data;
 using SqlSugar;
+using Blog.Models;
 
 namespace Blog.Services.Base
 {

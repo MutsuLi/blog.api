@@ -1,13 +1,12 @@
-using Blog.Common.Config;
+using System;
+using System.IO;
+using System.Linq;
 using Blog.Api.Filter;
+using Blog.Common;
 using log4net;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using static Blog.Api.SwaggerHelper.CustomApiVersion;
 
 namespace Blog.Api.Extensions
@@ -39,8 +38,6 @@ namespace Blog.Api.Extensions
                         Version = version,
                         Title = $"{ApiName} 接口文档——Netcore 3.1",
                         Description = $"{ApiName} HTTP API " + version,
-                        Contact = new OpenApiContact { Name = ApiName, Email = "Blog.Core@xxx.com", Url = new Uri("https://www.jianshu.com/u/94102b59cc2a") },
-                        License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("http://apk.neters.club/.doc/") }
                     });
                     c.OrderActionsBy(o => o.RelativePath);
                 });
@@ -49,10 +46,10 @@ namespace Blog.Api.Extensions
                 try
                 {
                     //就是这里
-                    var xmlPath = Path.Combine(basePath, "Blog.Core.xml");//这个就是刚刚配置的xml文件名
+                    var xmlPath = Path.Combine(basePath, "Blog.Api.xml");//这个就是刚刚配置的xml文件名
                     c.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
 
-                    var xmlModelPath = Path.Combine(basePath, "Blog.Core.Model.xml");//这个就是Model层的xml文件名
+                    var xmlModelPath = Path.Combine(basePath, "Blog.Api.Model.xml");//这个就是Model层的xml文件名
                     c.IncludeXmlComments(xmlModelPath);
                 }
                 catch (Exception ex)
