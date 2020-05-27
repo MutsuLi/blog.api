@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Profiling;
 
-namespace Blog.Core.Filter
+namespace Blog.Api.Filter
 {
     /// <summary>
     /// 全局异常错误日志
@@ -59,7 +59,7 @@ namespace Blog.Core.Filter
         /// <returns></returns>
         public string WriteLog(string throwMsg, Exception ex)
         {
-            return string.Format("\r\n【自定义错误】：{0} \r\n【异常类型】：{1} \r\n【异常信息】：{2} \r\n【堆栈调用】：{3}", new object[] { throwMsg,
+            return string.Format("\r\n【异常时间】：{0} \r\n【自定义错误】：{1} \r\n【异常类型】：{2} \r\n【异常信息】：{3} \r\n【堆栈调用】：{4}", new object[] { DateTime.Now,throwMsg,
                 ex.GetType().Name, ex.Message, ex.StackTrace });
         }
 

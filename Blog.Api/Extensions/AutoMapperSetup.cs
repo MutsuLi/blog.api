@@ -3,7 +3,7 @@ using Blog.Api.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Blog.Core.Extensions
+namespace Blog.Api.Extensions
 {
     /// <summary>
     /// Automapper 启动服务

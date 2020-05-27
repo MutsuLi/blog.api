@@ -7,10 +7,12 @@ using System.Text;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Api.AOP;
+using Blog.Api.Filter;
 using Blog.Common;
 using Blog.Common.Config;
 using Blog.Common.LogHelper;
-using Blog.Core.Extensions;
+using Blog.Api.Extensions;
+using Blog.Api.SwaggerHelper;
 using Blog.Model.Models;
 using log4net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,14 +26,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using static Blog.Api.SwaggerHelper.CustomApiVersion;
 
 namespace Blog.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -40,7 +46,7 @@ namespace Blog.Api
 
         //private IServiceCollection _services;
         private List<Type> tsDIAutofac = new List<Type>();
-        private static readonly ILog log = LogManager.GetLogger(typeof(Startup));
+        private static readonly ILog log = LogManager.GetLogger(typeof(GlobalExceptionsFilter));
         public void ConfigureContainer(ContainerBuilder builder)
         {
             var basePath = AppContext.BaseDirectory;
@@ -60,30 +66,27 @@ namespace Blog.Api
 
             // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
             var cacheType = new List<Type>();
-            builder.RegisterType<BlogLogAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册
-            cacheType.Add(typeof(BlogLogAOP));
-            builder.RegisterType<BlogCacheAOP>();//可以直接替换其他拦截器！一定要把拦截器进行注册        
-            cacheType.Add(typeof(BlogCacheAOP));
+
             // if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
             // {
             //     builder.RegisterType<BlogRedisCacheAOP>();
             //     cacheType.Add(typeof(BlogRedisCacheAOP));
             // }
-            // if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool())
-            // {
-            //     builder.RegisterType<BlogCacheAOP>();
-            //     cacheType.Add(typeof(BlogCacheAOP));
-            // }
+            if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogCacheAOP>();
+                cacheType.Add(typeof(BlogCacheAOP));
+            }
             // if (Appsettings.app(new string[] { "AppSettings", "TranAOP", "Enabled" }).ObjToBool())
             // {
             //     builder.RegisterType<BlogTranAOP>();
             //     cacheType.Add(typeof(BlogTranAOP));
             // }
-            // if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
-            // {
-            //     builder.RegisterType<BlogLogAOP>();
-            //     cacheType.Add(typeof(BlogLogAOP));
-            // }
+            if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogLogAOP>();
+                cacheType.Add(typeof(BlogLogAOP));
+            }
 
             // 获取 Service.dll 程序集服务，并注册
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
@@ -136,45 +139,15 @@ namespace Blog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddSingleton(new Appsettings(Configuration));
             services.AddSingleton(new LogLock(Env.ContentRootPath));
             services.AddScoped<IRedisCacheManager, RedisCacheManager>();
             services.AddMemoryCacheSetup();
+            services.AddMiniProfilerSetup();
+            services.AddSwaggerSetup();
             services.AddSqlsugarSetup();
             services.AddControllers();
             services.AddAutoMapperSetup();
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Blog API",
-                    Description = "Document for the blog Api",
-                    TermsOfService = new Uri("https://example.com/terms")
-                });
-                var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(basePath, xmlFile);
-                c.IncludeXmlComments(xmlPath, true);
-
-                #region Token绑定到ConfigureServices
-                //添加header验证信息
-                c.OperationFilter<AddResponseHeadersFilter>();
-                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-                //在header中添加token，传递到后台
-                c.OperationFilter<SecurityRequirementsOperationFilter>();
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
-                    Name = "Authorization",//jwt默认的参数名称
-                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
-                    Type = SecuritySchemeType.ApiKey
-                });
-                #endregion
-            });
-
 
             #region 【认证】
             //读取配置文件
@@ -211,11 +184,44 @@ namespace Blog.Api
                 options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("Admin", "System"));
             });
 
+
+            services.AddControllers(o =>
+            {
+                // 全局异常过滤
+                o.Filters.Add(typeof(GlobalExceptionsFilter));
+                // 全局路由权限公约
+                //o.Conventions.Insert(0, new GlobalRouteAuthorizeConvention());
+                // 全局路由前缀，统一修改路由
+                //o.Conventions.Insert(0, new GlobalRoutePrefixFilter(new RouteAttribute(RoutePrefix.Name)));
+            })
+            //全局配置Json序列化处理
+            .AddNewtonsoftJson(options =>
+            {
+                //忽略循环引用
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //不使用驼峰样式的key
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //设置时间格式
+                //options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
+            // // Ip限流,尽量放管道外层
+            // app.UseIpRateLimiting();
+            // // 记录所有的访问记录
+            // loggerFactory.AddLog4Net();
+            // // 记录请求与返回数据 
+            // app.UseReuestResponseLog();
+            // // signalr 
+            // app.UseSignalRSendMildd();
+            // // 记录ip请求
+            // app.UseIPLogMildd();
+            // // 查看注入的所有服务
+            // app.UseAllServicesMildd(_services, tsDIAutofac);
 
             if (env.IsDevelopment())
             {
@@ -236,18 +242,48 @@ namespace Blog.Api
             // specifying the Swagger JSON endpoint.    
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API V1");
-                //c.RoutePrefix = "swagger";
+                var ApiName = Appsettings.app(new string[] { "Startup", "ApiName" });
+                typeof(ApiVersions).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
+                {
+                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{ApiName} {version}");
+                });
+
+                // 将swagger首页，设置成我们自定义的页面，记得这个字符串的写法：解决方案名.index.html
+                c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Blog.Api.index.html");
+
+                if (GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Blog.Api.index.html") == null)
+                {
+                    var msg = "index.html的属性，必须设置为嵌入的资源";
+                    log.Error(msg);
+                    throw new Exception(msg);
+                }
+
+                // 路径配置，设置为空，表示直接在根域名（localhost:8001）访问该文件,注意localhost:8001/swagger是访问不到的，去launchSettings.json把launchUrl去掉，如果你想换一个路径，直接写名字即可，比如直接写c.RoutePrefix = "doc";
+                c.RoutePrefix = "";
             });
 
-            app.UseAuthentication();
 
+            app.UseCors("LimitRequests");
+
+            // 跳转https
+            //app.UseHttpsRedirection();
+            // 使用静态文件
+            app.UseStaticFiles();
+            // 使用cookie
+            app.UseCookiePolicy();
+            // 返回错误码
+            app.UseStatusCodePages();//把错误码返回前台，比如是404
+            // Routing
+            app.UseRouting();
+            // 这种自定义授权中间件，可以尝试，但不推荐
+            // app.UseJwtTokenAuth();
+            // 先开启认证
+            app.UseAuthentication();
+            // 然后是授权中间件
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+
+            app.UseMiniProfiler();
 
             app.UseEndpoints(endpoints =>
             {

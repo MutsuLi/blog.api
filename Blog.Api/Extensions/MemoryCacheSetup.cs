@@ -3,7 +3,7 @@ using Blog.Common;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blog.Core.Extensions
+namespace Blog.Api.Extensions
 {
     /// <summary>
     /// Cors 启动服务

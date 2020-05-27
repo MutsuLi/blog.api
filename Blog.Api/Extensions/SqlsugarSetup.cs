@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using StackExchange.Profiling;
 
-namespace Blog.Core.Extensions
+namespace Blog.Api.Extensions
 {
     /// <summary>
     /// SqlSugar 启动服务

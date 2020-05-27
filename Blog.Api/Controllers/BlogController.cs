@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Blog.IServices;
 using Blog.Model.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Blog.Api.Controllers
 {
@@ -15,14 +16,13 @@ namespace Blog.Api.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-
-        private readonly IAdvertisementServices _IAdvertisementServices;
         private readonly IBlogArticleServices _IBlogArticleServices;
+        private readonly ILogger<BlogController> _logger;
 
-        public BlogController(IAdvertisementServices IAdvertisementServices,IBlogArticleServices IBlogArticleServices)
+        public BlogController(IBlogArticleServices IBlogArticleServices, ILogger<BlogController> logger)
         {
-            _IAdvertisementServices = IAdvertisementServices;
-            _IBlogArticleServices= IBlogArticleServices;
+            _IBlogArticleServices = IBlogArticleServices;
+            _logger = logger;
         }
 
         // GET: api/Blog/5
@@ -49,7 +49,7 @@ namespace Blog.Api.Controllers
         public async Task<List<BlogArticle>> getBlogs()
         {
 
-           return await  _IBlogArticleServices.getBlogs();
+            return await _IBlogArticleServices.getBlogs();
         }
 
 
@@ -64,7 +64,7 @@ namespace Blog.Api.Controllers
             return await _IBlogArticleServices.getRedis();
         }
 
-     
+
 
     }
 }
