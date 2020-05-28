@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Blog.IServices.Base;
 using Blog.Model.Models;
 
-namespace Blog.Core.IServices
+namespace Blog.IServices
 {
     /// <summary>
     /// UserRoleServices

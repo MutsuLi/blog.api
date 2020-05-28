@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Api.AOP;
@@ -12,14 +11,12 @@ using Blog.Api.Filter;
 using Blog.Common;
 using Blog.Common.LogHelper;
 using log4net;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using static Blog.Api.SwaggerHelper.CustomApiVersion;
@@ -142,42 +139,7 @@ namespace Blog.Api
             services.AddSqlsugarSetup();
             services.AddControllers();
             services.AddAutoMapperSetup();
-
-            #region 【认证】
-            //读取配置文件
-            var audienceConfig = Configuration.GetSection("Audience");
-            var symmetricKeyAsBase64 = audienceConfig["Secret"];
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            var signingKey = new SymmetricSecurityKey(keyByteArray);
-            #endregion 【认证】
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = signingKey,//参数配置在下边
-                    ValidateIssuer = true,
-                    ValidIssuer = audienceConfig["Issuer"],//发行人
-                    ValidateAudience = true,
-                    ValidAudience = audienceConfig["Audience"],//订阅人
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero,//这个是缓冲过期时间，也就是说，即使我们配置了过期时间，这里也要考虑进去，过期时间+缓冲，默认好像是7分钟，你可以直接设置为0
-                    RequireExpirationTime = true,
-                };
-            });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Client", policy => policy.RequireRole("Client").Build());
-                options.AddPolicy("Admin", policy => policy.RequireRole("Admin").Build());
-                options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("Admin", "System"));
-            });
-
+            services.AddAuthorizationSetup();
 
             services.AddControllers(o =>
             {

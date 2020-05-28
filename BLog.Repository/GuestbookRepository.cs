@@ -4,7 +4,7 @@ using Blog.IRepository.IUnitOfWork;
 using Blog.Model.Models;
 using Blog.Repository.Base;
 
-namespace Blog.Core.Repository
+namespace Blog.Repository
 {
     public class GuestbookRepository : BaseRepository<Guestbook>, IGuestbookRepository
     {
