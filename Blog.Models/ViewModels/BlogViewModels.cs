@@ -79,6 +79,12 @@ namespace Blog.Model.ViewModels
         /// 创建时间
         /// </summary>
         public System.DateTime bCreateTime { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public System.DateTime bCreateTime2 { get; set; }
+
         /// <summary>备注
         /// 
         /// </summary>

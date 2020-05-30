@@ -158,8 +158,14 @@ namespace Blog.Api.Controllers
             pass = MD5Helper.MD5Encrypt32(pass);
 
             var user = await _sysUserInfoServices.Query(d => d.uLoginName == name && d.uLoginPWD == pass && d.tdIsDelete == false);
-            if (user.Count > 0)
+            if (user.Count == 0)
             {
+                return new MessageModel<TokenInfoViewModel>()
+                {
+                    success = false,
+                    msg = "认证失败",
+                };
+            }
                 var userRoles = await _sysUserInfoServices.GetUserRoleNameStr(name, pass);
                 //如果是基于用户的授权策略，这里要添加用户;如果是基于角色的授权策略，这里要添加角色
                 var claims = new List<Claim> {
@@ -197,15 +203,6 @@ namespace Blog.Api.Controllers
                     msg = "获取成功",
                     response = token
                 };
-            }
-            else
-            {
-                return new MessageModel<TokenInfoViewModel>()
-                {
-                    success = false,
-                    msg = "认证失败",
-                };
-            }
         }
 
         /// <summary>

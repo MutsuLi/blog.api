@@ -135,6 +135,7 @@ namespace Blog.Api
             services.AddScoped<IRedisCacheManager, RedisCacheManager>();
             services.AddMemoryCacheSetup();
             services.AddMiniProfilerSetup();
+            services.AddDbSetup();
             services.AddSwaggerSetup();
             services.AddSqlsugarSetup();
             services.AddControllers();
