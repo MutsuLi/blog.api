@@ -1,17 +1,13 @@
-﻿using Blog.Common.LogHelper;
-using Blog.Model.Models;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Blog.Common.LogHelper;
 using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using StackExchange.Profiling;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blog.Api.AOP
 {
@@ -21,26 +17,30 @@ namespace Blog.Api.AOP
     public class BlogLogAOP : IInterceptor
     {
         //private readonly IHubContext<ChatHub> _hubContext;
-        // private readonly IHttpContextAccessor _accessor;
+        private readonly IHttpContextAccessor _accessor;
 
-        // public BlogLogAOP(IHttpContextAccessor accessor)
-        // {
-        //     //_hubContext = hubContext;
-        //     _accessor = accessor;
-        // }
+        public BlogLogAOP( IHttpContextAccessor accessor)
+        {
+            //_hubContext = hubContext;
+            _accessor = accessor;
+        }
 
-
+        //public BlogLogAOP(IHubContext<ChatHub> hubContext, IHttpContextAccessor accessor)
+        //{
+        //    _hubContext = hubContext;
+        //    _accessor = accessor;
+        //}
         /// <summary>
         /// 实例化IInterceptor唯一方法 
         /// </summary>
         /// <param name="invocation">包含被拦截方法的信息</param>
         public void Intercept(IInvocation invocation)
         {
-            //string UserName = _accessor.HttpContext?.User?.Identity?.Name;
+            string UserName = _accessor.HttpContext?.User?.Identity?.Name;
 
             //记录被拦截方法信息的日志信息
             var dataIntercept = "" +
-                //$"【当前操作用户】：{ UserName} \r\n" +
+                $"【当前操作用户】：{ UserName} \r\n" +
                 $"【当前执行方法】：{ invocation.Method.Name} \r\n" +
                 $"【携带的参数有】： {string.Join(", ", invocation.Arguments.Select(a => (a ?? "").ToString()).ToArray())} \r\n";
 

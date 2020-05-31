@@ -1,6 +1,6 @@
 ﻿using Blog.Model;
 
-namespace Blog.Core.AuthHelper.Policys
+namespace Blog.Api.AuthHelper.Policys
 {
     public class ApiResponse
     {

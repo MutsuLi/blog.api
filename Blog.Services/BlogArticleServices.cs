@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Common;
@@ -8,6 +9,7 @@ using Blog.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;
 using Blog.Model.ViewModels;
+using Blog.Models;
 using Blog.Services.Base;
 
 namespace Blog.Services
@@ -18,7 +20,7 @@ namespace Blog.Services
         private IRedisCacheManager _redisCacheManager;
         IBlogArticleRepository _dal;
         private readonly IMapper _IMapper;
-        public BlogArticleServices(IBlogArticleRepository dal, IRedisCacheManager redisCacheManager,IMapper IMapper)
+        public BlogArticleServices(IBlogArticleRepository dal, IRedisCacheManager redisCacheManager, IMapper IMapper)
         {
             _redisCacheManager = redisCacheManager;
             this._dal = dal;
@@ -50,20 +52,6 @@ namespace Blog.Services
             }
 
             return blogArticleList;
-            //return new List<BlogArticle>()
-            // {
-            //     new BlogArticle(){
-            //         bID=1,
-            //         bsubmitter="test",
-            //         btitle="test2",
-            //         bcategory="1",
-            //         bcontent="2",
-            //         btraffic=10,
-            //         bcommentNum=1100,
-            //         bUpdateTime=DateTime.Now,
-            //         bCreateTime=DateTime.Now
-            //     }
-            // };
         }
         /// <summary>
         /// 获取博客列表
@@ -140,10 +128,9 @@ namespace Blog.Services
                 blogArticle.btraffic += 1;
                 await _dal.Update(blogArticle, new List<string> { "btraffic" });
             }
-
             return models;
 
         }
-
     }
+
 }

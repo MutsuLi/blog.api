@@ -1,4 +1,5 @@
 using Blog.Common;
+using Blog.Core.Common;
 using Castle.DynamicProxy;
 using System;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Blog.Api.AOP
     /// <summary>
     /// 面向切面的缓存使用
     /// </summary>
-    public class BlogRedisCacheAOP : AOPbase
+    public class BlogRedisCacheAOP : CacheAOPbase
     {
         //通过注入的方式，把缓存操作接口通过构造函数注入
         private readonly IRedisCacheManager _cache;

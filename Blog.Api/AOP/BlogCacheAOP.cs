@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Blog.Common;
 using Castle.DynamicProxy;
 
@@ -10,7 +7,7 @@ namespace Blog.Api.AOP
     /// <summary>
     /// 面向切面的缓存使用
     /// </summary>
-    public class BlogCacheAOP : AOPbase
+    public class BlogCacheAOP : CacheAOPbase
     {
         //通过注入的方式，把缓存操作接口通过构造函数注入
         private readonly ICaching _cache;
@@ -24,11 +21,10 @@ namespace Blog.Api.AOP
         {
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             //对当前方法的特性验证
-            var qCachingAttribute = method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingAttribute)) as CachingAttribute;
-            //只有那些指定的才可以被缓存，需要验证
-            //获取自定义缓存键
-            if (qCachingAttribute != null)
+            //如果需要验证
+            if (method.GetCustomAttributes(true).FirstOrDefault(x => x.GetType() == typeof(CachingAttribute)) is CachingAttribute qCachingAttribute)
             {
+                //获取自定义缓存键
                 var cacheKey = CustomCacheKey(invocation);
                 //根据key获取相应的缓存值
                 var cacheValue = _cache.Get(cacheKey);
@@ -46,9 +42,11 @@ namespace Blog.Api.AOP
                     _cache.Set(cacheKey, invocation.ReturnValue);
                 }
             }
-            else {
-                invocation.Proceed();
-            }      
+            else
+            {
+                invocation.Proceed();//直接执行被拦截方法
+            }
         }
     }
+
 }
