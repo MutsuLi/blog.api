@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Common;
@@ -9,7 +8,6 @@ using Blog.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;
 using Blog.Model.ViewModels;
-using Blog.Models;
 using Blog.Services.Base;
 
 namespace Blog.Services
