@@ -143,12 +143,24 @@ namespace Blog.Api.Controllers
                 });
 
                 await _userRoleServices.Add(userRolsAdd);
-            }
-            catch (Exception)
-            {
 
-                throw;
+                data.success = await _sysUserInfoServices.Update(sysUserInfo);
+                _unitOfWork.CommitTran();
+
+                if (data.success)
+                {
+                    data.msg = "更新成功";
+                    data.response = sysUserInfo?.uID.ObjToString();
+                }
+
             }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTran();
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return data;
 
         }
 
@@ -161,7 +173,21 @@ namespace Blog.Api.Controllers
         [HttpDelete]
         public async Task<MessageModel<string>> Delete(int id)
         {
-
+            var data = new MessageModel<string>();
+            if (id < 0)
+            {
+                data.msg = "不存在的ID";
+                data.response = id.ToString();
+            };
+            var userDetail = await _sysUserInfoServices.QueryById(id);
+            userDetail.tdIsDelete = true;
+            data.success = await _sysUserInfoServices.Update(userDetail);
+            if (data.success)
+            {
+                data.msg = "删除成功";
+                data.response = userDetail?.uID.ObjToString();
+            }
+            return data;
 
         }
     }
