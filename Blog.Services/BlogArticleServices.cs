@@ -93,39 +93,38 @@ namespace Blog.Services
             var blogArticle = (await _dal.Query(a => a.bID == id)).FirstOrDefault();
             BlogViewModels models = null;
 
-            if (blogArticle != null)
+            if (blogArticle == null) return models;
+
+            BlogArticle prevblog;
+            BlogArticle nextblog;
+            int blogIndex = bloglist.FindIndex(item => item.bID == id);
+            if (blogIndex < 0) return models;
+            try
             {
-                BlogArticle prevblog;
-                BlogArticle nextblog;
-                int blogIndex = bloglist.FindIndex(item => item.bID == id);
-                if (blogIndex >= 0)
+                // 上一篇
+                prevblog = blogIndex > 0 ? (((BlogArticle)(bloglist[blogIndex - 1]))) : null;
+                // 下一篇
+                nextblog = blogIndex + 1 < bloglist.Count() ? (BlogArticle)(bloglist[blogIndex + 1]) : null;
+
+
+                models = _IMapper.Map<BlogViewModels>(blogArticle);
+
+                if (nextblog != null)
                 {
-                    try
-                    {
-                        // 上一篇
-                        prevblog = blogIndex > 0 ? (((BlogArticle)(bloglist[blogIndex - 1]))) : null;
-                        // 下一篇
-                        nextblog = blogIndex + 1 < bloglist.Count() ? (BlogArticle)(bloglist[blogIndex + 1]) : null;
-
-
-                        models = _IMapper.Map<BlogViewModels>(blogArticle);
-
-                        if (nextblog != null)
-                        {
-                            models.next = nextblog.btitle;
-                            models.nextID = nextblog.bID;
-                        }
-                        if (prevblog != null)
-                        {
-                            models.previous = prevblog.btitle;
-                            models.previousID = prevblog.bID;
-                        }
-                    }
-                    catch (Exception) { }
+                    models.next = nextblog.btitle;
+                    models.nextID = nextblog.bID;
                 }
-                blogArticle.btraffic += 1;
-                await _dal.Update(blogArticle, new List<string> { "btraffic" });
+                if (prevblog != null)
+                {
+                    models.previous = prevblog.btitle;
+                    models.previousID = prevblog.bID;
+                }
             }
+            catch (Exception) { }
+
+            blogArticle.btraffic += 1;
+            await _dal.Update(blogArticle, new List<string> { "btraffic" });
+
             return models;
 
         }

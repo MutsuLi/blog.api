@@ -112,7 +112,7 @@ namespace Blog.Api.Controllers
         /// <summary>
         /// 更新用户信息
         /// </summary>
-        /// <param name="BlogArticle"></param>
+        /// <param name="sysUserInfo"></param>
         /// <returns></returns>
         // PUT: api/User/5
         [HttpPut]
