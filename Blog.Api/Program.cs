@@ -15,10 +15,10 @@ namespace Blog.Api
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         public static void Main(string[] args)
         {
-            // Éú³É³ĞÔØ web Ó¦ÓÃ³ÌĞòµÄ Microsoft.AspNetCore.Hosting.IWebHost¡£BuildÊÇWebHostBuilder×îÖÕµÄÄ¿µÄ£¬½«·µ»ØÒ»¸ö¹¹ÔìµÄWebHost£¬×îÖÕÉú³ÉËŞÖ÷¡£
+            // ç”Ÿæˆæ‰¿è½½ web åº”ç”¨ç¨‹åºçš„ Microsoft.AspNetCore.Hosting.IWebHostã€‚Buildæ˜¯WebHostBuilderæœ€ç»ˆçš„ç›®çš„ï¼Œå°†è¿”å›ä¸€ä¸ªæ„é€ çš„WebHostï¼Œæœ€ç»ˆç”Ÿæˆå®¿ä¸»ã€‚
             var host = CreateHostBuilder(args).Build();
 
-            // ´´½¨¿ÉÓÃÓÚ½âÎö×÷ÓÃÓò·şÎñµÄĞÂ Microsoft.Extensions.DependencyInjection.IServiceScope¡£
+            // åˆ›å»ºå¯ç”¨äºè§£æä½œç”¨åŸŸæœåŠ¡çš„æ–° Microsoft.Extensions.DependencyInjection.IServiceScopeã€‚
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -26,8 +26,8 @@ namespace Blog.Api
 
                 try
                 {
-                    // ´Ó system.IServicecÌá¹©³ÌĞò»ñÈ¡ T ÀàĞÍµÄ·şÎñ¡£
-                    // Êı¾İ¿âÁ¬½Ó×Ö·û´®ÊÇÔÚ Model ²ãµÄ Seed ÎÄ¼ş¼ĞÏÂµÄ MyContext.cs ÖĞ
+                    // ä» system.IServicecæä¾›ç¨‹åºè·å– T ç±»å‹çš„æœåŠ¡ã€‚
+                    // æ•°æ®åº“è¿æ¥å­—ç¬¦ä¸²æ˜¯åœ¨ Model å±‚çš„ Seed æ–‡ä»¶å¤¹ä¸‹çš„ MyContext.cs ä¸­
                     var configuration = services.GetRequiredService<IConfiguration>();
                     if (configuration.GetSection("AppSettings")["SeedDBEnabled"].ObjToBool() || configuration.GetSection("AppSettings")["SeedDBDataEnabled"].ObjToBool())
                     {
@@ -43,11 +43,11 @@ namespace Blog.Api
                 }
             }
 
-            // ÔËĞĞ web Ó¦ÓÃ³ÌĞò²¢×èÖ¹µ÷ÓÃÏß³Ì, Ö±µ½Ö÷»ú¹Ø±Õ¡£
-            // ´´½¨Íê WebHost Ö®ºó£¬±ãµ÷ÓÃËüµÄ Run ·½·¨£¬¶ø Run ·½·¨»áÈ¥µ÷ÓÃ WebHost µÄ StartAsync ·½·¨
-            // ½«Initialize·½·¨´´½¨µÄApplication¹ÜµÀ´«ÈëÒÔ¹©´¦ÀíÏûÏ¢
-            // Ö´ĞĞHostedServiceExecutor.StartAsync·½·¨
-            // ¡ù¡ù¡ù¡ù ÓĞÒì³££¬²é¿´ Log ÎÄ¼ş¼ĞÏÂµÄÒì³£ÈÕÖ¾ ¡ù¡ù¡ù¡ù  
+            // è¿è¡Œ web åº”ç”¨ç¨‹åºå¹¶é˜»æ­¢è°ƒç”¨çº¿ç¨‹, ç›´åˆ°ä¸»æœºå…³é—­ã€‚
+            // åˆ›å»ºå®Œ WebHost ä¹‹åï¼Œä¾¿è°ƒç”¨å®ƒçš„ Run æ–¹æ³•ï¼Œè€Œ Run æ–¹æ³•ä¼šå»è°ƒç”¨ WebHost çš„ StartAsync æ–¹æ³•
+            // å°†Initializeæ–¹æ³•åˆ›å»ºçš„Applicationç®¡é“ä¼ å…¥ä»¥ä¾›å¤„ç†æ¶ˆæ¯
+            // æ‰§è¡ŒHostedServiceExecutor.StartAsyncæ–¹æ³•
+            // â€»â€»â€»â€» æœ‰å¼‚å¸¸ï¼ŒæŸ¥çœ‹ Log æ–‡ä»¶å¤¹ä¸‹çš„å¼‚å¸¸æ—¥å¿— â€»â€»â€»â€»  
             host.Run();
         }
 
@@ -61,14 +61,14 @@ namespace Blog.Api
                 .UseStartup<Startup>()
                 .ConfigureLogging((hostingContext, builder) =>
                 {
-                    //¸Ã·½·¨ĞèÒªÒıÈëMicrosoft.Extensions.LoggingÃû³Æ¿Õ¼ä
-                    builder.AddFilter("System", LogLevel.Error); //¹ıÂËµôÏµÍ³Ä¬ÈÏµÄÒ»Ğ©ÈÕÖ¾
-                    builder.AddFilter("Microsoft", LogLevel.Error);//¹ıÂËµôÏµÍ³Ä¬ÈÏµÄÒ»Ğ©ÈÕÖ¾
+                    //è¯¥æ–¹æ³•éœ€è¦å¼•å…¥Microsoft.Extensions.Loggingåç§°ç©ºé—´
+                    builder.AddFilter("System", LogLevel.Error); //è¿‡æ»¤æ‰ç³»ç»Ÿé»˜è®¤çš„ä¸€äº›æ—¥å¿—
+                    builder.AddFilter("Microsoft", LogLevel.Error);//è¿‡æ»¤æ‰ç³»ç»Ÿé»˜è®¤çš„ä¸€äº›æ—¥å¿—
 
-                    //Ìí¼ÓLog4Net
+                    //æ·»åŠ Log4Net
                     //var path = Directory.GetCurrentDirectory() + "\\log4net.config"; 
-                    //²»´ø²ÎÊı£º±íÊ¾log4net.configµÄÅäÖÃÎÄ¼ş¾ÍÔÚÓ¦ÓÃ³ÌĞò¸ùÄ¿Â¼ÏÂ£¬Ò²¿ÉÒÔÖ¸¶¨ÅäÖÃÎÄ¼şµÄÂ·¾¶
-                    //ĞèÒªÌí¼Ónuget°ü£ºMicrosoft.Extensions.Logging.Log4Net.AspNetCore
+                    //ä¸å¸¦å‚æ•°ï¼šè¡¨ç¤ºlog4net.configçš„é…ç½®æ–‡ä»¶å°±åœ¨åº”ç”¨ç¨‹åºæ ¹ç›®å½•ä¸‹ï¼Œä¹Ÿå¯ä»¥æŒ‡å®šé…ç½®æ–‡ä»¶çš„è·¯å¾„
+                    //éœ€è¦æ·»åŠ nugetåŒ…ï¼šMicrosoft.Extensions.Logging.Log4Net.AspNetCore
                     builder.AddLog4Net();
                 });
             });

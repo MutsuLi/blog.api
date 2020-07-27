@@ -20,7 +20,7 @@ namespace Blog.Api.Controllers
     /// </summary>
     /// 
     [Produces("application/json")]
-    [Route("api/Blog")]
+    [Route("api/Blogs")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -44,20 +44,25 @@ namespace Blog.Api.Controllers
         {
             return new MessageModel<BlogViewModels>()
             {
-                msg = "获取成功",
+                msg = "success",
                 success = true,
                 response = await _blogArticleServices.getBlogDetails(id)
             };
         }
 
         /// <summary>
-        /// 获取博客列表
+        /// 获取博客列表【无权限】
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="bcategory"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        [Route("list")]
-        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "技术博文", string key = "")
+        // [Route("list")]
+        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
             {
@@ -68,7 +73,7 @@ namespace Blog.Api.Controllers
 
             var pageModelBlog = await _blogArticleServices.QueryPage(whereExpression, page, pageSize, "bID desc");
 
-            using (MiniProfiler.Current.Step("获取成功后，开始处理最终数据"))
+            using (MiniProfiler.Current.Step("Receive successfully and start to processing data"))
             {
                 foreach (var each in pageModelBlog.data)
                 {
@@ -87,7 +92,7 @@ namespace Blog.Api.Controllers
             return new MessageModel<PageModel<BlogArticle>>()
             {
                 success = true,
-                msg = "获取成功",
+                msg = "success",
                 response = new PageModel<BlogArticle>()
                 {
                     page = page,
@@ -96,18 +101,6 @@ namespace Blog.Api.Controllers
                     pageCount = pageModelBlog.pageCount,
                 }
             };
-        }
-
-
-        /// <summary>
-        /// 获取博客列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("redis")]
-        public async Task<List<BlogArticle>> getRedis()
-        {
-            return await _blogArticleServices.getRedis();
         }
 
         /// <summary>
@@ -129,7 +122,7 @@ namespace Blog.Api.Controllers
             if (data.success)
             {
                 data.response = id.ObjToString();
-                data.msg = "添加成功";
+                data.msg = "New article has been added.";
             }
 
             return data;
@@ -153,7 +146,7 @@ namespace Blog.Api.Controllers
             data.success = await _blogArticleServices.Update(blogArticle);
             if (data.success)
             {
-                data.msg = "删除成功";
+                data.msg = "Delete article successfully.";
                 data.response = blogArticle?.bID.ObjToString();
             }
 
@@ -187,7 +180,7 @@ namespace Blog.Api.Controllers
 
             if (data.success)
             {
-                data.msg = "更新成功";
+                data.msg = "Upadte article successfully.";
                 data.response = BlogArticle?.bID.ObjToString();
             }
             return data;
