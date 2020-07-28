@@ -22,7 +22,7 @@ namespace Blog.Api.Controllers
     /// 登录管理【无权限】
     /// </summary>
     [Produces("application/json")]
-    [Route("api/Login")]
+    [Route("api/login")]
     [AllowAnonymous]
     public class LoginController : Controller
     {
@@ -77,7 +77,7 @@ namespace Blog.Api.Controllers
             }
             else
             {
-                jwtStr = "login fail!!!";
+                jwtStr = "login failed.";
             }
 
             return new MessageModel<string>()
@@ -116,7 +116,7 @@ namespace Blog.Api.Controllers
             }
             else
             {
-                jwtStr = "login fail!!!";
+                jwtStr = "login failed.";
             }
             var result = new
             {
@@ -151,7 +151,7 @@ namespace Blog.Api.Controllers
                 return new MessageModel<TokenInfoViewModel>()
                 {
                     success = false,
-                    msg = "用户名或密码不能为空",
+                    msg = "user id or password should not be null.",
                 };
             }
 
@@ -163,46 +163,46 @@ namespace Blog.Api.Controllers
                 return new MessageModel<TokenInfoViewModel>()
                 {
                     success = false,
-                    msg = "认证失败",
+                    msg = "Authentication failed!",
                 };
             }
-                var userRoles = await _sysUserInfoServices.GetUserRoleNameStr(name, pass);
-                //如果是基于用户的授权策略，这里要添加用户;如果是基于角色的授权策略，这里要添加角色
-                var claims = new List<Claim> {
+            var userRoles = await _sysUserInfoServices.GetUserRoleNameStr(name, pass);
+            //如果是基于用户的授权策略，这里要添加用户;如果是基于角色的授权策略，这里要添加角色
+            var claims = new List<Claim> {
                     new Claim(ClaimTypes.Name, name),
                     new Claim(JwtRegisteredClaimNames.Jti, user.FirstOrDefault().uID.ToString()),
                     new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(_requirement.Expiration.TotalSeconds).ToString()) };
-                claims.AddRange(userRoles.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
+            claims.AddRange(userRoles.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
 
 
-                // ids4和jwt切换
-                // jwt
-                if (!Permissions.IsUseIds4)
-                {
-                    var data = await _roleModulePermissionServices.RoleModuleMaps();
-                    var list = (from item in data
-                                where item.IsDeleted == false
-                                orderby item.Id
-                                select new PermissionItem
-                                {
-                                    Url = item.Module?.LinkUrl,
-                                    Role = item.Role?.Name.ObjToString(),
-                                }).ToList();
+            // ids4和jwt切换
+            // jwt
+            if (!Permissions.IsUseIds4)
+            {
+                var data = await _roleModulePermissionServices.RoleModuleMaps();
+                var list = (from item in data
+                            where item.IsDeleted == false
+                            orderby item.Id
+                            select new PermissionItem
+                            {
+                                Url = item.Module?.LinkUrl,
+                                Role = item.Role?.Name.ObjToString(),
+                            }).ToList();
 
-                    _requirement.Permissions = list;
-                }
+                _requirement.Permissions = list;
+            }
 
-                //用户标识
-                var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-                identity.AddClaims(claims);
+            //用户标识
+            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
+            identity.AddClaims(claims);
 
-                var token = JwtToken.BuildJwtToken(claims.ToArray(), _requirement);
-                return new MessageModel<TokenInfoViewModel>()
-                {
-                    success = true,
-                    msg = "获取成功",
-                    response = token
-                };
+            var token = JwtToken.BuildJwtToken(claims.ToArray(), _requirement);
+            return new MessageModel<TokenInfoViewModel>()
+            {
+                success = true,
+                msg = "获取成功",
+                response = token
+            };
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Blog.Api.Controllers
             return new MessageModel<TokenInfoViewModel>()
             {
                 success = false,
-                msg = "认证失败！",
+                msg = "Authentication failed!",
             };
         }
 

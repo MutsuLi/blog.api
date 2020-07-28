@@ -20,7 +20,8 @@ namespace Blog.Api.Controllers
     /// <summary>
     /// 用户管理
     /// </summary>
-    [Route("api/[controller]/[action]")]
+    // [Route("api/[controller]/[action]")]
+    [Route("api/user")]
     [ApiController]
     //[Authorize(Permissions.Name)]
     public class UserController : ControllerBase
@@ -64,7 +65,7 @@ namespace Blog.Api.Controllers
 
             return new MessageModel<sysUserInfo>()
             {
-                msg = "获取成功",
+                msg = "success",
                 success = true,
                 response = data
             };
@@ -76,7 +77,6 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        [Route("list")]
         public async Task<MessageModel<PageModel<sysUserInfo>>> Get(int page = 1, int pageSize = 25, string key = "")
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
@@ -102,7 +102,7 @@ namespace Blog.Api.Controllers
 
             return new MessageModel<PageModel<sysUserInfo>>()
             {
-                msg = "获取成功",
+                msg = "success",
                 success = data.dataCount >= 0,
                 response = data
             };
@@ -149,7 +149,7 @@ namespace Blog.Api.Controllers
 
                 if (data.success)
                 {
-                    data.msg = "更新成功";
+                    data.msg = "Update userInfo successfully.";
                     data.response = sysUserInfo?.uID.ObjToString();
                 }
 
@@ -176,7 +176,7 @@ namespace Blog.Api.Controllers
             var data = new MessageModel<string>();
             if (id < 0)
             {
-                data.msg = "不存在的ID";
+                data.msg = "Invalid user id.";
                 data.response = id.ToString();
             };
             var userDetail = await _sysUserInfoServices.QueryById(id);
@@ -184,7 +184,7 @@ namespace Blog.Api.Controllers
             data.success = await _sysUserInfoServices.Update(userDetail);
             if (data.success)
             {
-                data.msg = "删除成功";
+                data.msg = "Delete successfully.";
                 data.response = userDetail?.uID.ObjToString();
             }
             return data;

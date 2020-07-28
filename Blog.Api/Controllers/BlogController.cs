@@ -20,7 +20,7 @@ namespace Blog.Api.Controllers
     /// </summary>
     /// 
     [Produces("application/json")]
-    [Route("api/Blogs")]
+    [Route("api/blogs")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -62,7 +62,7 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
+        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory="技术博文", string key = "")
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
             {
