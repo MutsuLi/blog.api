@@ -16,15 +16,14 @@ namespace Blog.Api.AOP
     /// </summary>
     public class BlogLogAOP : IInterceptor
     {
-        //private readonly IHubContext<ChatHub> _hubContext;
+        // private readonly IHubContext<ChatHub> _hubContext;
         private readonly IHttpContextAccessor _accessor;
 
-        public BlogLogAOP( IHttpContextAccessor accessor)
+        public BlogLogAOP(IHttpContextAccessor accessor)
         {
-            //_hubContext = hubContext;
+            // _hubContext = hubContext;
             _accessor = accessor;
         }
-
         //public BlogLogAOP(IHubContext<ChatHub> hubContext, IHttpContextAccessor accessor)
         //{
         //    _hubContext = hubContext;
@@ -61,18 +60,20 @@ namespace Blog.Api.AOP
                     {
                         invocation.ReturnValue = InternalAsyncHelper.AwaitTaskWithPostActionAndFinally(
                             (Task)invocation.ReturnValue,
-                             async () => await SuccessAction(invocation, dataIntercept),/*成功时执行*/
+                            async () => await SuccessAction(invocation, dataIntercept),/*成功时执行*/
                             ex =>
                             {
                                 LogEx(ex, dataIntercept);
                             });
                     }
-                    else //Task<TResult>
+                    //Task<TResult>
+                    else
                     {
                         invocation.ReturnValue = InternalAsyncHelper.CallAwaitTaskWithPostActionAndFinallyAndGetResult(
                          invocation.Method.ReturnType.GenericTypeArguments[0],
                          invocation.ReturnValue,
-                          async () => await SuccessAction(invocation, dataIntercept),/*成功时执行*/
+                          //async () => await SuccessAction(invocation, dataIntercept),/*成功时执行*/
+                          async (o) => await SuccessAction(invocation, dataIntercept, o),/*成功时执行*/
                          ex =>
                          {
                              LogEx(ex, dataIntercept);
@@ -83,17 +84,16 @@ namespace Blog.Api.AOP
 
                     // 如果方案一不行，试试这个方案
                     #region 方案二
-                    //invocation.ReturnValue = invocation.Method.Invoke(invocation.InvocationTarget,invocation.Arguments) as Task;
 
                     //var type = invocation.Method.ReturnType;
                     //var resultProperty = type.GetProperty("Result");
                     //dataIntercept += ($"【执行完成结果】：{JsonConvert.SerializeObject(resultProperty.GetValue(invocation.ReturnValue))}");
 
-
                     //Parallel.For(0, 1, e =>
                     //{
                     //    LogLock.OutSql2Log("AOPLog", new string[] { dataIntercept });
                     //});
+
                     #endregion
                 }
                 else
@@ -115,19 +115,23 @@ namespace Blog.Api.AOP
             //_hubContext.Clients.All.SendAsync("ReceiveUpdate", LogLock.GetLogData()).Wait();
         }
 
-        private async Task SuccessAction(IInvocation invocation, string dataIntercept)
+        private async Task SuccessAction(IInvocation invocation, string dataIntercept, object o = null)
         {
+            //invocation.ReturnValue = o;
+            //var type = invocation.Method.ReturnType;
+            //if (typeof(Task).IsAssignableFrom(type))
+            //{
+            //    //var resultProperty = type.GetProperty("Result");
+            //    //类型错误 都可以不要invocation参数，直接将o系列化保存到日记中
+            //    dataIntercept += ($"【执行完成结果】：{JsonConvert.SerializeObject(invocation.ReturnValue)}");
+            //}
+            //else
+            //{
+            //    dataIntercept += ($"【执行完成结果】：{invocation.ReturnValue}");
+            //}
 
-            var type = invocation.Method.ReturnType;
-            if (typeof(Task).IsAssignableFrom(type))
-            {
-                var resultProperty = type.GetProperty("Result");
-                dataIntercept += ($"【执行完成结果】：{JsonConvert.SerializeObject(resultProperty.GetValue(invocation.ReturnValue))}");
-            }
-            else
-            {
-                dataIntercept += ($"【执行完成结果】：{invocation.ReturnValue}");
-            }
+            dataIntercept += ($"【执行完成结果】：{JsonConvert.SerializeObject(o)}");
+
 
             await Task.Run(() =>
             {
@@ -188,14 +192,13 @@ namespace Blog.Api.AOP
             }
         }
 
-        public static async Task<T> AwaitTaskWithPostActionAndFinallyAndGetResult<T>(Task<T> actualReturnValue, Func<Task> postAction, Action<Exception> finalAction)
+        public static async Task<T> AwaitTaskWithPostActionAndFinallyAndGetResult<T>(Task<T> actualReturnValue, Func<object, Task> postAction, Action<Exception> finalAction)
         {
             Exception exception = null;
-
             try
             {
                 var result = await actualReturnValue;
-                await postAction();
+                await postAction(result);
                 return result;
             }
             catch (Exception ex)
@@ -209,7 +212,7 @@ namespace Blog.Api.AOP
             }
         }
 
-        public static object CallAwaitTaskWithPostActionAndFinallyAndGetResult(Type taskReturnType, object actualReturnValue, Func<Task> action, Action<Exception> finalAction)
+        public static object CallAwaitTaskWithPostActionAndFinallyAndGetResult(Type taskReturnType, object actualReturnValue, Func<object, Task> action, Action<Exception> finalAction)
         {
             return typeof(InternalAsyncHelper)
                 .GetMethod("AwaitTaskWithPostActionAndFinallyAndGetResult", BindingFlags.Public | BindingFlags.Static)
