@@ -172,7 +172,7 @@ namespace Blog.Api.Controllers
                     new Claim(ClaimTypes.Name, name),
                     new Claim(JwtRegisteredClaimNames.Jti, user.FirstOrDefault().uID.ToString()),
                     new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(_requirement.Expiration.TotalSeconds).ToString()) };
-            claims.AddRange(userRoles.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
+
 
 
             // ids4和jwt切换
@@ -192,10 +192,6 @@ namespace Blog.Api.Controllers
                 _requirement.Permissions = list;
             }
 
-            //用户标识
-            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-            identity.AddClaims(claims);
-
             var token = JwtToken.BuildJwtToken(claims.ToArray(), _requirement);
             return new MessageModel<TokenInfoViewModel>()
             {
@@ -204,6 +200,7 @@ namespace Blog.Api.Controllers
                 response = token
             };
         }
+
 
         /// <summary>
         /// 请求刷新Token（以旧换新）

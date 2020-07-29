@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blog.Common;
 using Blog.IRepository;
@@ -11,11 +12,11 @@ namespace Blog.Services
 {
     public class RoleModulePermissionServices : BaseServices<RoleModulePermission>, IRoleModulePermissionServices
     {
-        private readonly IRoleModulePermissionRepository _dal;
-        private readonly IModuleRepository _moduleRepository;
-        private readonly IRoleRepository _roleRepository;
+        readonly IRoleModulePermissionRepository _dal;
+        readonly IModuleRepository _moduleRepository;
+        readonly IRoleRepository _roleRepository;
 
-
+        // 将多个仓储接口注入
         public RoleModulePermissionServices(IRoleModulePermissionRepository dal, IModuleRepository moduleRepository, IRoleRepository roleRepository)
         {
             this._dal = dal;
@@ -25,33 +26,50 @@ namespace Blog.Services
         }
 
         /// <summary>
-        /// 获取全部 角色接口(按钮)关系数据 注意我使用咱们之前的AOP缓存，很好的应用上了
+        /// 获取全部 角色接口(按钮)关系数据
         /// </summary>
         /// <returns></returns>
         [Caching(AbsoluteExpiration = 10)]
         public async Task<List<RoleModulePermission>> GetRoleModule()
         {
-            var roleModulePermissions = await _dal.Query(a => a.IsDeleted == false);
+            var roleModulePermissions = await base.Query(a => a.IsDeleted == false);
+            var roles = await _roleRepository.Query(a => a.IsDeleted == false);
+            var modules = await _moduleRepository.Query(a => a.IsDeleted == false);
+
+            //var roleModulePermissionsAsync = base.Query(a => a.IsDeleted == false);
+            //var rolesAsync = _roleRepository.Query(a => a.IsDeleted == false);
+            //var modulesAsync = _moduleRepository.Query(a => a.IsDeleted == false);
+
+            //var roleModulePermissions = await roleModulePermissionsAsync;
+            //var roles = await rolesAsync;
+            //var modules = await modulesAsync;
+
+
             if (roleModulePermissions.Count > 0)
             {
                 foreach (var item in roleModulePermissions)
                 {
-                    item.Role = await _roleRepository.QueryById(item.RoleId);
-                    item.Module = await _moduleRepository.QueryById(item.ModuleId);
+                    item.Role = roles.FirstOrDefault(d => d.Id == item.RoleId);
+                    item.Module = modules.FirstOrDefault(d => d.Id == item.ModuleId);
                 }
 
             }
             return roleModulePermissions;
         }
 
-        public Task<List<RoleModulePermission>> RoleModuleMaps()
+        // public async Task<List<TestMuchTableResult>> QueryMuchTable()
+        // {
+        //     return await _dal.QueryMuchTable();
+        // }
+
+        public async Task<List<RoleModulePermission>> RoleModuleMaps()
         {
-            throw new NotImplementedException();
+            return await _dal.RoleModuleMaps();
         }
 
-        public Task<List<RoleModulePermission>> TestModelWithChildren()
+        public async Task<List<RoleModulePermission>> GetRMPMaps()
         {
-            throw new NotImplementedException();
+            return await _dal.GetRMPMaps();
         }
     }
 }
