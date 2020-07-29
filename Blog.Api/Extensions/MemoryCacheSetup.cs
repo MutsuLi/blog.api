@@ -1,12 +1,12 @@
-﻿using System;
-using Blog.Common;
+﻿using Blog.Common.MemoryCache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Blog.Api.Extensions
 {
     /// <summary>
-    /// Cors 启动服务
+    /// Memory缓存 启动服务
     /// </summary>
     public static class MemoryCacheSetup
     {

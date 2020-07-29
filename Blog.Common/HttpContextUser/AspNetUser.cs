@@ -2,11 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using Blog.Common;
-using Blog.Common.HttpContextUser;
 using Microsoft.AspNetCore.Http;
 
-namespace Blog.Core.Common.HttpContextUser
+namespace Blog.Common.HttpContextUser
 {
     public class AspNetUser : IUser
     {
@@ -17,7 +15,24 @@ namespace Blog.Core.Common.HttpContextUser
             _accessor = accessor;
         }
 
-        public string Name => _accessor.HttpContext.User.Identity.Name;
+        public string Name => GetName();
+
+        private string GetName()
+        {
+            if (IsAuthenticated())
+            {
+                return _accessor.HttpContext.User.Identity.Name;
+            }
+            else {
+                if (!string.IsNullOrEmpty(GetToken()))
+                {
+                    return GetUserInfoFromToken("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").FirstOrDefault().ObjToString();
+                }
+            }
+
+            return "";
+        }
+
         public int ID => GetClaimValueByType("jti").FirstOrDefault().ObjToInt();
 
         public bool IsAuthenticated()
@@ -56,9 +71,11 @@ namespace Blog.Core.Common.HttpContextUser
 
         public List<string> GetClaimValueByType(string ClaimType)
         {
+
             return (from item in GetClaimsIdentity()
                     where item.Type == ClaimType
                     select item.Value).ToList();
+
         }
     }
 }

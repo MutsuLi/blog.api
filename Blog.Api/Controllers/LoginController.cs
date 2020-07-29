@@ -151,7 +151,7 @@ namespace Blog.Api.Controllers
                 return new MessageModel<TokenInfoViewModel>()
                 {
                     success = false,
-                    msg = "user id or password should not be null.",
+                    msg = "User id or password should not be null.",
                 };
             }
 
@@ -218,7 +218,7 @@ namespace Blog.Api.Controllers
                 return new MessageModel<TokenInfoViewModel>()
                 {
                     success = false,
-                    msg = "token无效，请重新登录！",
+                    msg = "Authentication failed! Please sign in again.",
                 };
             }
             var tokenModel = JwtHelper.SerializeJwt(token);
@@ -252,7 +252,7 @@ namespace Blog.Api.Controllers
             return new MessageModel<TokenInfoViewModel>()
             {
                 success = false,
-                msg = "Authentication failed!",
+                msg = "Authentication failed! Please sign in again.",
             };
         }
 

@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blog.Api;
-using Blog.Api.AuthHelper;
 using Blog.Common.Helper;
 using Blog.IServices;
 using Microsoft.AspNetCore.Authentication;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blog.AuthHelper
+namespace Blog.Api.AuthHelper
 {
     /// <summary>
     /// 权限授权处理器
@@ -45,6 +44,7 @@ namespace Blog.AuthHelper
         {
             var httpContext = _accessor.HttpContext;
 
+            // 获取系统中所有的角色和菜单的关系集合
             if (!requirement.Permissions.Any())
             {
                 var data = await _roleModulePermissionServices.RoleModuleMaps();
@@ -77,11 +77,20 @@ namespace Blog.AuthHelper
                 requirement.Permissions = list;
             }
 
-            //请求Url
             if (httpContext != null)
             {
                 var questUrl = httpContext.Request.Path.Value.ToLower();
-                //判断请求是否停止
+
+                // 整体结构类似认证中间件UseAuthentication的逻辑，具体查看开源地址
+                // https://github.com/dotnet/aspnetcore/blob/master/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs
+                httpContext.Features.Set<IAuthenticationFeature>(new AuthenticationFeature
+                {
+                    OriginalPath = httpContext.Request.Path,
+                    OriginalPathBase = httpContext.Request.PathBase
+                });
+
+                // Give any IAuthenticationRequestHandler schemes a chance to handle the request
+                // 主要作用是: 判断当前是否需要进行远程验证，如果是就进行远程验证
                 var handlers = httpContext.RequestServices.GetRequiredService<IAuthenticationHandlerProvider>();
                 foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
                 {
@@ -91,6 +100,8 @@ namespace Blog.AuthHelper
                         return;
                     }
                 }
+
+
                 //判断请求是否拥有凭据，即有没有登录
                 var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
                 if (defaultAuthenticate != null)

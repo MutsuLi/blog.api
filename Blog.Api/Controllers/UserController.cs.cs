@@ -23,7 +23,7 @@ namespace Blog.Api.Controllers
     // [Route("api/[controller]/[action]")]
     [Route("api/user")]
     [ApiController]
-    //[Authorize(Permissions.Name)]
+    [Authorize(Permissions.Name)]
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -40,7 +40,6 @@ namespace Blog.Api.Controllers
         /// <param name="sysUserInfoServices"></param>
         /// <param name="userRoleServices"></param>
         /// <param name="roleServices"></param>
-        /// <param name="user"></param>
         /// <param name="logger"></param>
         public UserController(IUnitOfWork unitOfWork, ISysUserInfoServices sysUserInfoServices, IUserRoleServices userRoleServices, IRoleServices roleServices, ILogger<UserController> logger)
         {
