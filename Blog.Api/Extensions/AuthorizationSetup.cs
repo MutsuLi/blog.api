@@ -99,7 +99,8 @@ namespace Blog.Api.Extensions
 
             //2.1【认证】、core自带官方JWT认证
             // 开启Bearer认证
-            services.AddAuthentication(o => {
+            services.AddAuthentication(o =>
+            {
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = nameof(ApiResponseHandler);
                 o.DefaultForbidScheme = nameof(ApiResponseHandler);
@@ -118,7 +119,16 @@ namespace Blog.Api.Extensions
                      OnAuthenticationFailed = context =>
                      {
                          var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
-                         var jwtToken = (new JwtSecurityTokenHandler()).ReadJwtToken(token);
+                         JwtSecurityToken jwtToken;
+                         try
+                         {
+                             jwtToken = (new JwtSecurityTokenHandler()).ReadJwtToken(token);
+                         }
+                         catch (System.Exception)
+                         {
+                             context.Response.Headers.Add("Token-Error-Aud", "Token is wrong!");
+                             return Task.CompletedTask;
+                         }
 
                          if (jwtToken.Issuer != Issuer)
                          {
@@ -129,7 +139,6 @@ namespace Blog.Api.Extensions
                          {
                              context.Response.Headers.Add("Token-Error-Aud", "Audience is wrong!");
                          }
-
 
                          // 如果过期，则把<是否过期>添加到，返回头信息中
                          if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
