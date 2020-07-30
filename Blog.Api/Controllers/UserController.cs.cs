@@ -20,8 +20,8 @@ namespace Blog.Api.Controllers
     /// <summary>
     /// 用户管理
     /// </summary>
-    // [Route("api/[controller]/[action]")]
-    [Route("api/user")]
+    [Route("api/[controller]/[action]")]
+    //[Route("api/user")]
     [ApiController]
     [Authorize(Permissions.Name)]
     public class UserController : ControllerBase
