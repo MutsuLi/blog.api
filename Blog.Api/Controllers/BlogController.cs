@@ -62,7 +62,7 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory="技术博文", string key = "")
+        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "技术博文", string key = "")
         {
             if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
             {
@@ -96,6 +96,7 @@ namespace Blog.Api.Controllers
                 response = new PageModel<BlogArticle>()
                 {
                     page = page,
+                    PageSize = pageSize,
                     dataCount = pageModelBlog.dataCount,
                     data = pageModelBlog.data,
                     pageCount = pageModelBlog.pageCount,

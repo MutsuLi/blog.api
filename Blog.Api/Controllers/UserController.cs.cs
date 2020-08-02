@@ -14,6 +14,7 @@ using System.Linq.Expressions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Blog.AuthHelper.OverWrite;
 
 namespace Blog.Api.Controllers
 {
@@ -68,6 +69,36 @@ namespace Blog.Api.Controllers
                 success = true,
                 response = data
             };
+        }
+
+        // GET: api/User/5
+        /// <summary>
+        /// 获取用户详情根据token
+        /// 【无权限】
+        /// </summary>
+        /// <param name="token">令牌</param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<MessageModel<sysUserInfo>> GetInfoByToken(string token)
+        {
+            var data = new MessageModel<sysUserInfo>();
+            if (!string.IsNullOrEmpty(token))
+            {
+                var tokenModel = JwtHelper.SerializeJwt(token);
+                if (tokenModel != null && tokenModel.Uid > 0)
+                {
+                    var userinfo = await _sysUserInfoServices.QueryById(tokenModel.Uid);
+                    if (userinfo != null)
+                    {
+                        data.response = userinfo;
+                        data.success = true;
+                        data.msg = "获取成功";
+                    }
+                }
+
+            }
+            return data;
         }
 
         /// <summary>
