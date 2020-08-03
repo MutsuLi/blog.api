@@ -62,16 +62,24 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "技术博文", string key = "")
+        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
         {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+
+            Expression<Func<BlogArticle, bool>> where = PredicateBuilder.True<BlogArticle>();
+            if (id > 0)
             {
-                key = "";
+                where.And(a => (a.bId == id && a.IsDeleted == false));
+            }
+            if (string.IsNullOrEmpty(bcategory))
+            {
+                where.And(a => (a.bcategory == bcategory && a.IsDeleted == false));
+            }
+            if (string.IsNullOrEmpty(key))
+            {
+                where.And(a => (a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
             }
 
-            Expression<Func<BlogArticle, bool>> whereExpression = a => (a.bcategory == bcategory && a.IsDeleted == false) && ((a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
-
-            var pageModelBlog = await _blogArticleServices.QueryPage(whereExpression, page, pageSize, "bId desc");
+            var pageModelBlog = await _blogArticleServices.QueryPage(where, page, pageSize, "bId desc");
 
             using (MiniProfiler.Current.Step("Receive successfully and start to processing data"))
             {
