@@ -114,7 +114,7 @@ namespace Blog.Api.Controllers
                 key = "";
             }
 
-            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uLoginId != null && a.uLoginId.Contains(key)) || (a.uRealName != null && a.uRealName.Contains(key))), page, pageSize, " uID desc ");
+            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uLoginId != null && a.uLoginId.Contains(key)) || (a.uName != null && a.uName.Contains(key))), page, pageSize, " uID desc ");
 
             // 这里可以封装到多表查询，此处简单处理
             var allUserRoles = await _userRoleServices.Query(d => d.IsDeleted == false);
@@ -123,7 +123,7 @@ namespace Blog.Api.Controllers
             var sysUserInfos = data.data;
             foreach (var item in sysUserInfos)
             {
-                var currentUserRoles = allUserRoles.Where(d => d.UserId == item.uID).Select(d => d.RoleId).ToList();
+                var currentUserRoles = allUserRoles.Where(d => d.UserId == item.uId).Select(d => d.RoleId).ToList();
                 item.RIDs = currentUserRoles;
                 item.RoleNames = allRoles.Where(d => currentUserRoles.Contains(d.Id)).Select(d => d.Name).ToList();
             }
@@ -150,7 +150,7 @@ namespace Blog.Api.Controllers
         public async Task<MessageModel<string>> Put([FromBody] sysUserInfo sysUserInfo)
         {
             var data = new MessageModel<string>();
-            if (sysUserInfo == null || sysUserInfo.uID <= 0)
+            if (sysUserInfo == null || sysUserInfo.uId <= 0)
             {
                 return data;
             }
@@ -159,7 +159,7 @@ namespace Blog.Api.Controllers
             {
                 _unitOfWork.BeginTran();
                 // 无论 Update Or Add , 先删除当前用户的全部 U_R 关系
-                var usreroles = (await _userRoleServices.Query(d => d.UserId == sysUserInfo.uID)).Select(d => d.Id.ToString()).ToArray();
+                var usreroles = (await _userRoleServices.Query(d => d.UserId == sysUserInfo.uId)).Select(d => d.Id.ToString()).ToArray();
                 if (usreroles.Count() > 0)
                 {
                     var isAllDeleted = await _userRoleServices.DeleteByIds(usreroles);
@@ -169,7 +169,7 @@ namespace Blog.Api.Controllers
                 var userRolsAdd = new List<UserRole>();
                 sysUserInfo.RIDs.ForEach(rid =>
                 {
-                    userRolsAdd.Add(new UserRole(sysUserInfo.uID, rid));
+                    userRolsAdd.Add(new UserRole(sysUserInfo.uId, rid));
                 });
 
                 await _userRoleServices.Add(userRolsAdd);
@@ -180,7 +180,7 @@ namespace Blog.Api.Controllers
                 if (data.success)
                 {
                     data.msg = "Update userInfo successfully.";
-                    data.response = sysUserInfo?.uID.ObjToString();
+                    data.response = sysUserInfo?.uId.ObjToString();
                 }
 
             }
@@ -215,7 +215,7 @@ namespace Blog.Api.Controllers
             if (data.success)
             {
                 data.msg = "Delete successfully.";
-                data.response = userDetail?.uID.ObjToString();
+                data.response = userDetail?.uId.ObjToString();
             }
             return data;
 

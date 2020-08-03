@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blog.IRepository
 {
-    public interface ITagRespository : IBaseRepository<Tag>
+    public interface ITagRepository : IBaseRepository<Tag>
     {
 
     }

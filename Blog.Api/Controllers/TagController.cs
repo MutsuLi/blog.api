@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blog.Common.Helper;
 using Blog.IServices;
 using Blog.Model;
 using Blog.Model.Models;
-using Blog.Model.ViewModels;
 using Blog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StackExchange.Profiling;
 
 namespace Blog.Api.Controllers
 {

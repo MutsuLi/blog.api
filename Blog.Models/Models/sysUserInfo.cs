@@ -32,7 +32,7 @@ namespace Blog.Model.Models
         /// 用户ID
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
-        public int uID { get; set; }
+        public int uId { get; set; }
         /// <summary>
         /// 登录账号
         /// </summary>
@@ -50,11 +50,6 @@ namespace Blog.Model.Models
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string uName { get; set; }
 
-        /// <summary>
-        /// 真实姓名
-        /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
-        public string uRealName { get; set; }
         /// <summary>
         /// 状态
         /// </summary>
@@ -81,12 +76,12 @@ namespace Blog.Model.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        public System.DateTime uCreateTime { get; set; } = DateTime.Now;
+        public DateTime uCreateTime { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 更新时间
         /// </summary>
-        public System.DateTime uUpdateTime { get; set; } = DateTime.Now;
+        public DateTime uUpdateTime { get; set; } = DateTime.Now;
 
         /// <summary>
         ///最后登录时间 

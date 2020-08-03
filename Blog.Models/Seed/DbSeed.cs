@@ -254,7 +254,7 @@ namespace Blog.Model.Models
                     #region Tag
                     if (!await DbContext.Db.Queryable<Tag>().AnyAsync())
                     {
-                        DbContext.GetEntityDB<Tag>().InsertRange(JsonHelper.ParseFormByJson<List<Tag>>(FileHelper.ReadFile(string.Format(SeedDataFolder, "TagQz"), Encoding.UTF8)));
+                        DbContext.GetEntityDB<Tag>().InsertRange(JsonHelper.ParseFormByJson<List<Tag>>(FileHelper.ReadFile(string.Format(SeedDataFolder, "Tag"), Encoding.UTF8)));
                         Console.WriteLine("Table:Tag created success!");
                     }
                     else

@@ -45,7 +45,7 @@ namespace Blog.Services
             }
             else
             {
-                blogArticleList =  await base.Query(a => a.bID > 0, a => a.bID);
+                blogArticleList =  await base.Query(a => a.bId > 0, a => a.bId);
                 _redisCacheManager.Set("Redis.Blog", blogArticleList, TimeSpan.FromSeconds(30));//缓存2小时
             }
 
@@ -59,7 +59,7 @@ namespace Blog.Services
         /// <returns></returns>
         public async Task<BlogViewModels> getBlogDetails(int id)
         {
-            var blogArticle = (await base.Query(a => a.bID == id && a.IsDeleted == false)).FirstOrDefault();
+            var blogArticle = (await base.Query(a => a.bId == id && a.IsDeleted == false)).FirstOrDefault();
             BlogViewModels models = null;
 
             if (blogArticle == null) return models;
@@ -68,18 +68,18 @@ namespace Blog.Services
 
             //要取下一篇和上一篇，以当前id开始，按id排序后top(2)，而不用取出所有记录
             //这样在记录很多的时候也不会有多大影响
-            var nextBlogs = await base.Query(a => a.bID >= id && a.IsDeleted == false, 2, "bID");
+            var nextBlogs = await base.Query(a => a.bId >= id && a.IsDeleted == false, 2, "bId");
             if (nextBlogs.Count == 2)
             {
                 models.next = nextBlogs[1].btitle;
-                models.nextID = nextBlogs[1].bID;
+                models.nextID = nextBlogs[1].bId;
             }
 
-            var prevBlogs = await base.Query(a => a.bID <= id && a.IsDeleted == false, 2, "bID desc");
+            var prevBlogs = await base.Query(a => a.bId <= id && a.IsDeleted == false, 2, "bId desc");
             if (prevBlogs.Count == 2)
             {
                 models.previous = prevBlogs[1].btitle;
-                models.previousID = prevBlogs[1].bID;
+                models.previousID = prevBlogs[1].bId;
             }
 
             blogArticle.btraffic += 1;

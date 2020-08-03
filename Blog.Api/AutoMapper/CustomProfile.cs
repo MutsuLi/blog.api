@@ -11,7 +11,7 @@ namespace Blog.Api.AutoMapper
         /// </summary>
         public CustomProfile()
         {
-            CreateMap<BlogArticle, BlogViewModels>().ForMember(d=>d.id,o=>o.MapFrom(s=>s.bID));
+            CreateMap<BlogArticle, BlogViewModels>().ForMember(d=>d.id,o=>o.MapFrom(s=>s.bId));
             CreateMap<BlogViewModels, BlogArticle>();
         }
     }

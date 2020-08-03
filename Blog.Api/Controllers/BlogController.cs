@@ -71,7 +71,7 @@ namespace Blog.Api.Controllers
 
             Expression<Func<BlogArticle, bool>> whereExpression = a => (a.bcategory == bcategory && a.IsDeleted == false) && ((a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
 
-            var pageModelBlog = await _blogArticleServices.QueryPage(whereExpression, page, pageSize, "bID desc");
+            var pageModelBlog = await _blogArticleServices.QueryPage(whereExpression, page, pageSize, "bId desc");
 
             using (MiniProfiler.Current.Step("Receive successfully and start to processing data"))
             {
@@ -148,7 +148,7 @@ namespace Blog.Api.Controllers
             if (data.success)
             {
                 data.msg = "Delete article successfully.";
-                data.response = blogArticle?.bID.ObjToString();
+                data.response = blogArticle?.bId.ObjToString();
             }
 
             return data;
@@ -165,11 +165,11 @@ namespace Blog.Api.Controllers
         public async Task<MessageModel<string>> Put([FromBody] BlogArticle BlogArticle)
         {
             var data = new MessageModel<string>();
-            if (BlogArticle == null || BlogArticle.bID <= 0)
+            if (BlogArticle == null || BlogArticle.bId <= 0)
             {
                 return data;
             }
-            var model = await _blogArticleServices.QueryById(BlogArticle.bID);
+            var model = await _blogArticleServices.QueryById(BlogArticle.bId);
             if (model == null) return data;
 
             model.btitle = BlogArticle.btitle;
@@ -182,7 +182,7 @@ namespace Blog.Api.Controllers
             if (data.success)
             {
                 data.msg = "Upadte article successfully.";
-                data.response = BlogArticle?.bID.ObjToString();
+                data.response = BlogArticle?.bId.ObjToString();
             }
             return data;
         }

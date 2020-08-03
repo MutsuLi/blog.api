@@ -5,7 +5,7 @@ using Blog.Repository.Base;
 
 namespace Blog.Repository
 {
-    public class TagRespository : BaseRepository<Tag>, ITagRespository
+    public class TagRespository : BaseRepository<Tag>, ITagRepository
     {
         public TagRespository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
