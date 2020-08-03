@@ -109,7 +109,8 @@ namespace Blog.Model.Models
                     typeof(Topic),
                     typeof(TopicDetail),
                     typeof(TasksQz),
-                    typeof(UserRole));
+                    typeof(UserRole),
+                    typeof(Tag));
 
                 // 后期单独处理某些表
                 // DbContext.Db.CodeFirst.InitTables(typeof(sysUserInfo));
@@ -243,6 +244,18 @@ namespace Blog.Model.Models
                     {
                         DbContext.GetEntityDB<TasksQz>().InsertRange(JsonHelper.ParseFormByJson<List<TasksQz>>(FileHelper.ReadFile(string.Format(SeedDataFolder, "TasksQz"), Encoding.UTF8)));
                         Console.WriteLine("Table:TasksQz created success!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Table:TasksQz already exists...");
+                    }
+                    #endregion
+
+                    #region Tag
+                    if (!await DbContext.Db.Queryable<Tag>().AnyAsync())
+                    {
+                        DbContext.GetEntityDB<Tag>().InsertRange(JsonHelper.ParseFormByJson<List<Tag>>(FileHelper.ReadFile(string.Format(SeedDataFolder, "TagQz"), Encoding.UTF8)));
+                        Console.WriteLine("Table:Tag created success!");
                     }
                     else
                     {

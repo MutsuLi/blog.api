@@ -30,6 +30,12 @@ namespace Blog.Model.Models
         public string bcategory { get; set; }
 
         /// <summary>
+        /// 类别
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public long bcategoryId { get; set; }
+
+        /// <summary>
         /// 内容
         /// </summary>
         [SugarColumn(IsNullable = true, ColumnDataType = "text")]

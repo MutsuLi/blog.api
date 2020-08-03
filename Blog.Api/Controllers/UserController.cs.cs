@@ -114,7 +114,7 @@ namespace Blog.Api.Controllers
                 key = "";
             }
 
-            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uLoginName != null && a.uLoginName.Contains(key)) || (a.uRealName != null && a.uRealName.Contains(key))), page, pageSize, " uID desc ");
+            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uLoginId != null && a.uLoginId.Contains(key)) || (a.uRealName != null && a.uRealName.Contains(key))), page, pageSize, " uID desc ");
 
             // 这里可以封装到多表查询，此处简单处理
             var allUserRoles = await _userRoleServices.Query(d => d.IsDeleted == false);

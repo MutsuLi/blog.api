@@ -1,0 +1,16 @@
+using Blog.IRepository.Base;
+using Blog.Model.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Blog.IRepository
+{
+    public interface ITagRespository : IBaseRepository<Tag>
+    {
+
+    }
+}

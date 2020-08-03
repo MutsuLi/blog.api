@@ -9,7 +9,7 @@ namespace Blog.IServices
     /// </summary>	
     public interface ISysUserInfoServices :IBaseServices<sysUserInfo>
 	{
-        Task<sysUserInfo> SaveUserInfo(string loginName, string loginPwd);
+        Task<sysUserInfo> SaveUserInfo(string loginId, string loginPwd, string Uname = "", string desc = "", string title = "");
         Task<string> GetUserRoleNameStr(string loginName, string loginPwd);
     }
 }
