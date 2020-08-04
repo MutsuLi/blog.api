@@ -14,7 +14,7 @@ namespace Blog.Model.Models
     {
         public sysUserInfo() { }
 
-        public sysUserInfo(string loginId, string loginPwd, string Uname = "", string desc = "", string title = "")
+        public sysUserInfo(string loginId, string loginPwd, string userName = "", string desc = "", string title = "")
         {
             uLoginId = loginId;
             uLoginPwd = loginPwd;
@@ -23,7 +23,7 @@ namespace Blog.Model.Models
             uUpdateTime = DateTime.Now;
             uLastErrTime = DateTime.Now;
             uErrorCount = 0;
-            uName = Uname;
+            uName = userName;
             uDescription = desc;
             uTitle = title;
         }
@@ -64,13 +64,13 @@ namespace Blog.Model.Models
         // <summary>
         /// 简介
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "text", IsNullable = true)]
         public string uDescription { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "text",IsNullable = true)]
         public string uRemark { get; set; }
 
         /// <summary>

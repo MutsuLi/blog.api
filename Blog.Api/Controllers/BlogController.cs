@@ -70,11 +70,11 @@ namespace Blog.Api.Controllers
             {
                 where.And(a => (a.bId == id && a.IsDeleted == false));
             }
-            if (string.IsNullOrEmpty(bcategory))
+            if (!string.IsNullOrEmpty(bcategory))
             {
                 where.And(a => (a.bcategory == bcategory && a.IsDeleted == false));
             }
-            if (string.IsNullOrEmpty(key))
+            if (!string.IsNullOrEmpty(key))
             {
                 where.And(a => (a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
             }
@@ -113,12 +113,13 @@ namespace Blog.Api.Controllers
         }
 
         /// <summary>
-        /// 添加博客【无权限】
+        /// 添加博客
         /// </summary>
         /// <param name="blogArticle"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Permissions.Name)]
+        [Route("post")]
         public async Task<MessageModel<string>> Post([FromBody] BlogArticle blogArticle)
         {
             var data = new MessageModel<string>();
@@ -145,7 +146,7 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Authorize(Permissions.Name)]
-        [Route("Delete")]
+        [Route("delete")]
         public async Task<MessageModel<string>> Delete(int id)
         {
             var data = new MessageModel<string>();
@@ -169,7 +170,7 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         // PUT: api/User/5
         [HttpPut]
-        [Route("Update")]
+        [Route("update")]
         public async Task<MessageModel<string>> Put([FromBody] BlogArticle BlogArticle)
         {
             var data = new MessageModel<string>();
