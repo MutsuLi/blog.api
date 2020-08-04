@@ -41,7 +41,7 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<Tag>>> queryTagList(int page, int pageSize, int tagId = -1, string key = "")
+        public async Task<MessageModel<PageModel<Tag>>> queryTagList(int page = 1, int pageSize = 25, int tagId = -1, string key = "")
         {
             Expression<Func<Tag, bool>> where = PredicateBuilder.True<Tag>();
             if (tagId > 0)
@@ -76,7 +76,8 @@ namespace Blog.Api.Controllers
         /// <param name="tag"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Permissions.Name)]
+        [Route("post")]
         public async Task<MessageModel<string>> Post([FromBody] Tag tag)
         {
             var data = new MessageModel<string>();
@@ -103,7 +104,7 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Authorize(Permissions.Name)]
-        [Route("Delete")]
+        [Route("delete")]
         public async Task<MessageModel<string>> Delete(int id)
         {
             var data = new MessageModel<string>();
@@ -127,7 +128,7 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         // PUT: api/tag/5
         [HttpPut]
-        [Route("Update")]
+        [Route("update")]
         public async Task<MessageModel<string>> Put([FromBody] Tag tag)
         {
             var data = new MessageModel<string>();
