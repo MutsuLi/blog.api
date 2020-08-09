@@ -18,6 +18,12 @@ namespace Blog.Model.Models
         public string bsubmitter { get; set; }
 
         /// <summary>
+        /// 创建人
+        /// </summary>
+        [SugarColumn(IsNullable = true)]
+        public int bSubmitterId { get; set; }
+
+        /// <summary>
         /// 标题blog
         /// </summary>
         [SugarColumn(Length = 256, IsNullable = true)]

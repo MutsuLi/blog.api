@@ -15,10 +15,16 @@ namespace Blog.Model.ViewModels
         /// 
         /// </summary>
         public int id { get; set; }
+        
         /// <summary>创建人
         /// 
         /// </summary>
         public string bsubmitter { get; set; }
+
+         /// <summary>创建人ID
+        /// 
+        /// </summary>
+        public string bSubmitterId { get; set; }
 
         /// <summary>博客标题
         /// 
@@ -79,11 +85,6 @@ namespace Blog.Model.ViewModels
         /// 创建时间
         /// </summary>
         public System.DateTime bCreateTime { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public System.DateTime bCreateTime2 { get; set; }
 
         /// <summary>备注
         /// 
