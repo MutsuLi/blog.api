@@ -14,16 +14,16 @@ namespace Blog.Model.Models
     {
         public sysUserInfo() { }
 
-        public sysUserInfo(string loginId, string loginPwd, string userName = "", string desc = "", string title = "")
+        public sysUserInfo(string email, string password, string userName = "", string desc = "", string title = "")
         {
-            uLoginId = loginId;
-            uLoginPwd = loginPwd;
+            uEmail = email;
+            uPassword = password;
+            uName = userName;
             uStatus = 0;
             uCreateTime = DateTime.Now;
             uUpdateTime = DateTime.Now;
             uLastErrTime = DateTime.Now;
             uErrorCount = 0;
-            uName = userName;
             uDescription = desc;
             uTitle = title;
         }
@@ -33,16 +33,18 @@ namespace Blog.Model.Models
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int uId { get; set; }
+        
         /// <summary>
-        /// 登录账号
+        /// 登录邮箱
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
-        public string uLoginId { get; set; }
+        public string uEmail { get; set; }
+
         /// <summary>
         /// 登录密码
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
-        public string uLoginPwd { get; set; }
+        public string uPassword { get; set; }
 
         /// <summary>
         /// 昵称
@@ -70,7 +72,7 @@ namespace Blog.Model.Models
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(ColumnDataType = "text",IsNullable = true)]
+        [SugarColumn(ColumnDataType = "text", IsNullable = true)]
         public string uRemark { get; set; }
 
         /// <summary>

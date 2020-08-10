@@ -31,7 +31,7 @@ namespace Blog.Api.Controllers
         readonly ISysUserInfoServices _sysUserInfoServices;
         readonly IUserRoleServices _userRoleServices;
         readonly IRoleServices _roleServices;
-        //private readonly IUser _user;
+        private readonly IUser _user;
         private readonly ILogger<UserController> _logger;
 
         /// <summary>
@@ -41,14 +41,15 @@ namespace Blog.Api.Controllers
         /// <param name="sysUserInfoServices"></param>
         /// <param name="userRoleServices"></param>
         /// <param name="roleServices"></param>
+        /// <param name="user"></param>
         /// <param name="logger"></param>
-        public UserController(IUnitOfWork unitOfWork, ISysUserInfoServices sysUserInfoServices, IUserRoleServices userRoleServices, IRoleServices roleServices, ILogger<UserController> logger)
+        public UserController(IUnitOfWork unitOfWork, ISysUserInfoServices sysUserInfoServices, IUserRoleServices userRoleServices, IRoleServices roleServices, IUser user, ILogger<UserController> logger)
         {
             _unitOfWork = unitOfWork;
             _sysUserInfoServices = sysUserInfoServices;
             _userRoleServices = userRoleServices;
             _roleServices = roleServices;
-            //_user = user;
+            _user = user;
             _logger = logger;
         }
 
@@ -132,7 +133,7 @@ namespace Blog.Api.Controllers
                 key = "";
             }
 
-            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uLoginId != null && a.uLoginId.Contains(key)) || (a.uName != null && a.uName.Contains(key))), page, pageSize, " uID desc ");
+            var data = await _sysUserInfoServices.QueryPage(a => a.tdIsDelete != true && a.uStatus >= 0 && ((a.uEmail != null && a.uEmail.Contains(key)) || (a.uName != null && a.uName.Contains(key))), page, pageSize, " uID desc ");
 
             // 这里可以封装到多表查询，此处简单处理
             var allUserRoles = await _userRoleServices.Query(d => d.IsDeleted == false);
@@ -155,6 +156,31 @@ namespace Blog.Api.Controllers
                 response = data
             };
 
+
+        }
+        /// <summary>
+        /// 添加一个用户
+        /// </summary>
+        /// <param name="sysUserInfo"></param>
+        /// <returns></returns>
+        // POST: api/User
+        [HttpPost]
+        public async Task<MessageModel<string>> Post([FromBody] sysUserInfo sysUserInfo)
+        {
+            var data = new MessageModel<string>();
+
+            sysUserInfo.uPassword = MD5Helper.MD5Encrypt32(sysUserInfo.uPassword);
+            sysUserInfo.uRemark = _user.Name;
+
+            var id = await _sysUserInfoServices.Add(sysUserInfo);
+            data.success = id > 0;
+            if (data.success)
+            {
+                data.response = id.ObjToString();
+                data.msg = "添加成功";
+            }
+
+            return data;
         }
 
         /// <summary>

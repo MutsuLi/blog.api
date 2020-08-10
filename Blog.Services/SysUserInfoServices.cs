@@ -32,11 +32,11 @@ namespace Blog.Services
         /// <param name="desc"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        public async Task<sysUserInfo> SaveUserInfo(string loginId, string loginPwd, string Uname = "", string desc = "", string title = "")
+        public async Task<sysUserInfo> SaveUserInfo(string email, string password, string username = "", string desc = "", string title = "")
         {
-            sysUserInfo sysUserInfo = new sysUserInfo(loginId, loginPwd, Uname, desc, title);
+            sysUserInfo sysUserInfo = new sysUserInfo(email, password, username, desc, title);
             sysUserInfo model = new sysUserInfo();
-            var userList = await base.Query(a => a.uLoginId == sysUserInfo.uLoginId && a.uLoginPwd == sysUserInfo.uLoginPwd);
+            var userList = await base.Query(a => a.uEmail == sysUserInfo.uEmail && a.uPassword == sysUserInfo.uPassword);
             if (userList.Count > 0)
             {
                 model = userList.FirstOrDefault();
@@ -57,10 +57,10 @@ namespace Blog.Services
         /// <param name="loginName"></param>
         /// <param name="loginPwd"></param>
         /// <returns></returns>
-        public async Task<string> GetUserRoleNameStr(string loginName, string loginPwd)
+        public async Task<string> GetUserRoleNameStr(string email, string password)
         {
             string roleName = "";
-            var user = (await base.Query(a => a.uLoginId == loginName && a.uLoginPwd == loginPwd)).FirstOrDefault();
+            var user = (await base.Query(a => a.uEmail == email && a.uPassword == password)).FirstOrDefault();
             var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
             if (user != null)
             {
