@@ -5,6 +5,7 @@ using Blog.FrameWork.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;
 using Blog.Services.Base;
+using System.Collections.Generic;
 
 namespace Blog.Services
 {
@@ -13,7 +14,7 @@ namespace Blog.Services
     /// </summary>	
     public class UserRoleServices : BaseServices<UserRole>, IUserRoleServices
     {
-	
+
         IUserRoleRepository _dal;
         public UserRoleServices(IUserRoleRepository dal)
         {
@@ -49,9 +50,16 @@ namespace Blog.Services
 
 
         [Caching(AbsoluteExpiration = 30)]
-        public async Task<int> GetRoleIdByUid(int uid)
+        public async Task<int> GetLastRoleIdByUid(int uid)
         {
             return ((await base.Query(d => d.UserId == uid)).OrderByDescending(d => d.Id).LastOrDefault()?.RoleId).ObjToInt();
+        }
+
+
+        [Caching(AbsoluteExpiration = 30)]
+        public async Task<List<int>> GetRoleIdByUid(int uid)
+        {
+            return ((await base.Query(d => d.UserId == uid)).OrderByDescending(d => d.Id).Select(d => d.RoleId).ToList());
         }
     }
 }

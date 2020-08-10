@@ -21,7 +21,7 @@ namespace Blog.Model.Models
         /// 创建人
         /// </summary>
         [SugarColumn(IsNullable = true)]
-        public int bSubmitterId { get; set; }
+        public int bsubmitterId { get; set; }
 
         /// <summary>
         /// 标题blog
@@ -65,7 +65,7 @@ namespace Blog.Model.Models
         /// <summary>
         /// 创建时间
         /// </summary>
-        public System.DateTime bCreateTime { get; set; }
+        public DateTime bCreateTime { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

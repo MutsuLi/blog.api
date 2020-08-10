@@ -61,14 +61,26 @@ namespace Blog.Api.Controllers
         [HttpGet("{id}")]
         public async Task<object> Get(int id)
         {
-            var data = await _sysUserInfoServices.QueryById(id);
-
-            return new MessageModel<sysUserInfo>()
+            var result = new MessageModel<sysUserInfo>();
+            var sysUserInfos = await _sysUserInfoServices.QueryById(id);
+            if (sysUserInfos == null)
             {
-                msg = "success",
-                success = true,
-                response = data
-            };
+                return result;
+            }
+            #region MyRegion
+
+            // 这里可以封装到多表查询，此处简单处理
+            var roleIds = await _userRoleServices.GetRoleIdByUid(id);
+            var roleName = await _roleServices.GetRoleNameByRid(roleIds.Select(x => x as object).ToArray());
+
+            sysUserInfos.RIDs = roleIds;
+            sysUserInfos.RoleNames = roleName;
+
+            #endregion
+            result.msg = "success";
+            result.success = true;
+            result.response = sysUserInfos;
+            return result;
         }
 
         // GET: api/User/5
@@ -89,6 +101,12 @@ namespace Blog.Api.Controllers
                 if (tokenModel != null && tokenModel.Uid > 0)
                 {
                     var userinfo = await _sysUserInfoServices.QueryById(tokenModel.Uid);
+                    // 这里可以封装到多表查询，此处简单处理
+                    var roleIds = await _userRoleServices.GetRoleIdByUid((int)tokenModel.Uid);
+                    var roleName = await _roleServices.GetRoleNameByRid(roleIds.Select(x => x as object).ToArray());
+
+                    userinfo.RIDs = roleIds;
+                    userinfo.RoleNames = roleName;
                     if (userinfo != null)
                     {
                         data.response = userinfo;

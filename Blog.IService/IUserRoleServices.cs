@@ -1,17 +1,18 @@
 using System.Threading.Tasks;
 using Blog.IServices.Base;
 using Blog.Model.Models;
-
+using System.Collections.Generic;
 namespace Blog.IServices
 {
     /// <summary>
     /// UserRoleServices
     /// </summary>	
-    public interface IUserRoleServices :IBaseServices<UserRole>
-	{
+    public interface IUserRoleServices : IBaseServices<UserRole>
+    {
 
         Task<UserRole> SaveUserRole(int uid, int rid);
-        Task<int> GetRoleIdByUid(int uid);
+        Task<int> GetLastRoleIdByUid(int uid);
+        Task<List<int>> GetRoleIdByUid(int uid);
     }
 }
 

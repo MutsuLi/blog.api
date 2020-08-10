@@ -24,7 +24,7 @@ namespace Blog.Model.ViewModels
          /// <summary>创建人ID
         /// 
         /// </summary>
-        public string bSubmitterId { get; set; }
+        public string bsubmitterId { get; set; }
 
         /// <summary>博客标题
         /// 
@@ -79,12 +79,12 @@ namespace Blog.Model.ViewModels
         /// <summary> 修改时间
         /// 
         /// </summary>
-        public DateTime bUpdateTime { get; set; }
+        public string bUpdateTime { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
-        public System.DateTime bCreateTime { get; set; }
+        public string bCreateTime { get; set; }
 
         /// <summary>备注
         /// 

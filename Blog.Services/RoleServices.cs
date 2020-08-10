@@ -5,6 +5,7 @@ using Blog.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;
 using Blog.Services.Base;
+using System.Collections.Generic;
 
 namespace Blog.Core.Services
 {
@@ -13,18 +14,18 @@ namespace Blog.Core.Services
     /// </summary>	
     public class RoleServices : BaseServices<Role>, IRoleServices
     {
-	
+
         IRoleRepository _dal;
         public RoleServices(IRoleRepository dal)
         {
             this._dal = dal;
             base.BaseDal = dal;
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="roleName"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
         public async Task<Role> SaveRole(string roleName)
         {
             Role role = new Role(roleName);
@@ -45,9 +46,15 @@ namespace Blog.Core.Services
         }
 
         [Caching(AbsoluteExpiration = 30)]
-        public async Task<string> GetRoleNameByRid(int rid)
+        public async Task<string> GetLastRoleIdByUid(int rid)
         {
             return ((await base.QueryById(rid))?.Name);
+        }
+
+        [Caching(AbsoluteExpiration = 30)]
+        public async Task<List<string>> GetRoleNameByRid(object[] rids)
+        {
+            return ((await base.QueryByIDs(rids)).OrderByDescending(d => d.Id).Select(d => d.Name).ToList());
         }
     }
 }

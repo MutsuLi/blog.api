@@ -1,9 +1,17 @@
 ﻿using AutoMapper;
 using Blog.Model.Models;
 using Blog.Model.ViewModels;
+using System;
 
 namespace Blog.Api.AutoMapper
 {
+    public class DateTimeConverter : ITypeConverter<DateTime, string>
+    {
+        public string Convert(DateTime date, string dateString, ResolutionContext context)
+        {
+            return date.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+    }
     public class CustomProfile : Profile
     {
         /// <summary>
@@ -11,8 +19,10 @@ namespace Blog.Api.AutoMapper
         /// </summary>
         public CustomProfile()
         {
-            CreateMap<BlogArticle, BlogViewModels>().ForMember(d=>d.id,o=>o.MapFrom(s=>s.bId));
+            CreateMap<DateTime, string>().ConvertUsing<DateTimeConverter>();
+            CreateMap<BlogArticle, BlogViewModels>().ForMember(d => d.id, o => o.MapFrom(s => s.bId));
             CreateMap<BlogViewModels, BlogArticle>();
+
         }
     }
 }
