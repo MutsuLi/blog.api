@@ -165,6 +165,7 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         // POST: api/User
         [HttpPost]
+        [AllowAnonymous]
         public async Task<MessageModel<string>> Post([FromBody] sysUserInfo sysUserInfo)
         {
             var data = new MessageModel<string>();
@@ -172,12 +173,14 @@ namespace Blog.Api.Controllers
             sysUserInfo.uPassword = MD5Helper.MD5Encrypt32(sysUserInfo.uPassword);
             sysUserInfo.uRemark = _user.Name;
 
-            var id = await _sysUserInfoServices.Add(sysUserInfo);
-            data.success = id > 0;
+            var uId = await _sysUserInfoServices.Add(sysUserInfo);
+            await _userRoleServices.Add(new UserRole(uId));
+
+            data.success = uId > 0;
             if (data.success)
             {
-                data.response = id.ObjToString();
-                data.msg = "添加成功";
+                data.response = uId.ObjToString();
+                data.msg = "Add user successfully.";
             }
 
             return data;

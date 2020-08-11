@@ -141,6 +141,7 @@ namespace Blog.Api
             services.AddControllers();
             services.AddAutoMapperSetup();
             services.AddAuthorizationSetup();
+            services.AddHttpContextSetup();
 
             services.AddControllers(o =>
             {

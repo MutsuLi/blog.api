@@ -23,7 +23,15 @@ namespace Blog.Model.Models
             CreateId = uid;
             CreateTime = DateTime.Now;
         }
-
+        public UserRole(int uid)
+        {
+            UserId = uid;
+            RoleId = 1;
+            CreateTime = DateTime.Now;
+            IsDeleted = false;
+            CreateId = uid;
+            CreateTime = DateTime.Now;
+        }
 
 
         /// <summary>

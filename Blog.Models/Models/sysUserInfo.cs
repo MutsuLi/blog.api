@@ -14,11 +14,12 @@ namespace Blog.Model.Models
     {
         public sysUserInfo() { }
 
-        public sysUserInfo(string email, string password, string userName = "", string desc = "", string title = "")
+        public sysUserInfo(string email, string password, string userName = "", string avatars = "", string desc = "", string title = "")
         {
             uEmail = email;
             uPassword = password;
             uName = userName;
+            uName = avatars;
             uStatus = 0;
             uCreateTime = DateTime.Now;
             uUpdateTime = DateTime.Now;
@@ -33,7 +34,7 @@ namespace Blog.Model.Models
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int uId { get; set; }
-        
+
         /// <summary>
         /// 登录邮箱
         /// </summary>
@@ -51,6 +52,12 @@ namespace Blog.Model.Models
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string uName { get; set; }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string uAvatar { get; set; }
 
         /// <summary>
         /// 状态
@@ -74,7 +81,6 @@ namespace Blog.Model.Models
         /// </summary>
         [SugarColumn(ColumnDataType = "text", IsNullable = true)]
         public string uRemark { get; set; }
-
         /// <summary>
         /// 创建时间
         /// </summary>
