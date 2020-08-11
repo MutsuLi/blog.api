@@ -137,7 +137,7 @@ namespace Blog.Api.AuthHelper
                         {
                             try
                             {
-                                if (Regex.Match(questUrl, item.Url?.ObjToString().ToLower())?.Value == questUrl)
+                                if (questUrl.IndexOf(Regex.Match(questUrl, item.Url?.ObjToString().ToLower())?.Value) != -1)
                                 {
                                     isMatchRole = true;
                                     break;

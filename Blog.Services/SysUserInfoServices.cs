@@ -54,13 +54,13 @@ namespace Blog.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="loginName"></param>
+        /// <param name="name"></param>
         /// <param name="loginPwd"></param>
         /// <returns></returns>
-        public async Task<string> GetUserRoleNameStr(string email, string password)
+        public async Task<string> GetUserRoleNameStr(string name, string password)
         {
             string roleName = "";
-            var user = (await base.Query(a => a.uEmail == email && a.uPassword == password)).FirstOrDefault();
+            var user = (await base.Query(a => (a.uEmail == name || a.uName == name) && a.uPassword == password)).FirstOrDefault();
             var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
             if (user != null)
             {

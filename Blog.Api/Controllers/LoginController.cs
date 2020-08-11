@@ -157,7 +157,7 @@ namespace Blog.Api.Controllers
 
             pass = MD5Helper.MD5Encrypt32(pass);
 
-            var user = await _sysUserInfoServices.Query(d => d.uEmail == name && d.uPassword == pass && d.tdIsDelete == false);
+            var user = await _sysUserInfoServices.Query(d => (d.uEmail == name || d.uName == name) && d.uPassword == pass && d.tdIsDelete == false);
             if (user.Count == 0)
             {
                 return new MessageModel<TokenInfoViewModel>()
