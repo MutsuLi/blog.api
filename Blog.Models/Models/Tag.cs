@@ -35,6 +35,12 @@ namespace Blog.Model.Models
         /// </summary>
         [SugarColumn(Length = 60, IsNullable = true)]
         public string tsubmitter { get; set; }
+        
+        /// <summary>
+        /// 创建人Id
+        /// </summary>
+        [SugarColumn(Length = 60, IsNullable = true)]
+        public string tsubmitterId { get; set; }
 
         /// <summary>
         /// icon
