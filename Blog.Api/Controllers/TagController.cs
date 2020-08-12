@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blog.Common.Helper;
@@ -53,7 +54,7 @@ namespace Blog.Api.Controllers
                 where.And(a => (a.tName != null && a.tName.Contains(key)) || (a.tDescription != null && a.tDescription.Contains(key)));
             }
 
-            var tagPageModel = await _tagServices.QueryPage(where, page, pageSize, "tId desc");
+            var tagPageModel = await _tagServices.QueryPage(where, page, pageSize, "tModifyTime desc");
 
             return new MessageModel<PageModel<Tag>>()
             {
@@ -80,12 +81,27 @@ namespace Blog.Api.Controllers
         [Route("post")]
         public async Task<MessageModel<string>> Post([FromBody] Tag tag)
         {
-            var data = new MessageModel<string>();
-            tag.tCreateTime = DateTime.Now;
-            tag.tModifyTime = DateTime.Now;
-            tag.IsDeleted = false;
+            var tagInfo = (await _tagServices.Query(a => a.tName == tag.tName)).FirstOrDefault();
 
-            var id = await _tagServices.Add(tag);
+            int id;
+            var data = new MessageModel<string>();
+            if (tagInfo != null)
+            {
+                tagInfo.tCreateTime = DateTime.Now;
+                tagInfo.tModifyTime = DateTime.Now;
+                tagInfo.tDescription = tag.tDescription;
+                tagInfo.tDispalyName = tag.tDispalyName;
+                var success = await _tagServices.Update(tagInfo);
+                if (!success) return data;
+                id = tagInfo.tId;
+            }
+            else
+            {
+                tag.tCreateTime = DateTime.Now;
+                tag.tModifyTime = DateTime.Now;
+                tag.IsDeleted = false;
+                id = await _tagServices.Add(tag);
+            }
             data.success = id > 0;
             if (data.success)
             {
