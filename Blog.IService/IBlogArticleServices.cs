@@ -13,7 +13,7 @@ namespace Blog.IServices
 {
     public interface IBlogArticleServices : IBaseServices<BlogArticle>
     {
-        Task<List<BlogArticle>> getBlogs();
+        Task<PageModel<BlogViewModels>> getBlogList(int page, int pageSize, Expression<Func<BlogArticle, bool>> where);
         Task<BlogViewModels> getBlogDetails(int id);
     }
 }

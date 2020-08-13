@@ -62,7 +62,7 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
+        public async Task<MessageModel<PageModel<BlogViewModels>>> Get(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
         {
 
             Expression<Func<BlogArticle, bool>> where = PredicateBuilder.True<BlogArticle>();
@@ -79,7 +79,7 @@ namespace Blog.Api.Controllers
                 where.And(a => (a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
             }
 
-            var pageModelBlog = await _blogArticleServices.QueryPage(where, page, pageSize, "bId desc");
+            var pageModelBlog = await _blogArticleServices.getBlogList(page, pageSize, where);
 
             using (MiniProfiler.Current.Step("Receive successfully and start to processing data"))
             {
@@ -97,11 +97,11 @@ namespace Blog.Api.Controllers
                 }
             }
 
-            return new MessageModel<PageModel<BlogArticle>>()
+            return new MessageModel<PageModel<BlogViewModels>>()
             {
                 success = true,
                 msg = "success",
-                response = new PageModel<BlogArticle>()
+                response = new PageModel<BlogViewModels>()
                 {
                     page = page,
                     PageSize = pageSize,

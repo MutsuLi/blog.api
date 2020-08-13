@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Common;
+using Blog.Common.Helper;
 using Blog.IRepository;
 using Blog.IServices;
 using Blog.Model.Models;
 using Blog.Model.ViewModels;
+using Blog.Models;
 using Blog.Services.Base;
 
 namespace Blog.Services
@@ -28,28 +31,33 @@ namespace Blog.Services
 
 
         /// <summary>
-        /// 获取博客列表
+        /// 获取博客列表(Redis)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         ///   
-        public async Task<List<BlogArticle>> getBlogs()
+        public async Task<PageModel<BlogViewModels>> getBlogList(int page, int pageSize, Expression<Func<BlogArticle, bool>> where)
         {
-            var connect = Appsettings.app(new string[] { "AppSettings", "RedisCaching", "ConnectionString" });//按照层级的顺序，依次写出来
 
-            List<BlogArticle> blogArticleList = new List<BlogArticle>();
+            PageModel<BlogArticle> blogArticleList = new PageModel<BlogArticle>();
 
             if (_redisCacheManager.Get<object>("Redis.Blog") != null)
             {
-                blogArticleList = _redisCacheManager.Get<List<BlogArticle>>("Redis.Blog");
+                blogArticleList.data = _redisCacheManager.Get<List<BlogArticle>>("Redis.Blog.getBlogList");
             }
             else
             {
-                blogArticleList =  await base.Query(a => a.bId > 0, a => a.bId);
-                _redisCacheManager.Set("Redis.Blog", blogArticleList, TimeSpan.FromSeconds(30));//缓存2小时
+                blogArticleList = await base.QueryPage(where, page, pageSize, "bId desc");
+                _redisCacheManager.Set("Redis.Blog.getBlogList", blogArticleList, TimeSpan.FromSeconds(10)); //缓存10sec
             }
-
-            return blogArticleList;
+            PageModel<BlogViewModels> models = new PageModel<BlogViewModels>();
+            List<BlogViewModels> data = new List<BlogViewModels>();
+            foreach (var each in blogArticleList.data)
+            {
+                data.Add(_mapper.Map<BlogViewModels>(each));
+            }
+            models.data = data;
+            return models;
         }
 
         /// <summary>
