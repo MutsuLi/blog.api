@@ -193,7 +193,6 @@ namespace Blog.Api.Controllers
         /// <returns></returns>
         // PUT: api/User/5
         [HttpPut]
-        [Route("Update")]
         public async Task<MessageModel<string>> Put([FromBody] sysUserInfo sysUserInfo)
         {
             var data = new MessageModel<string>();
@@ -202,32 +201,37 @@ namespace Blog.Api.Controllers
                 return data;
             }
 
+            var sysUser = (await _sysUserInfoServices.Query(d => d.uId == sysUserInfo.uId)).FirstOrDefault();
+            sysUser.uDescription = sysUserInfo.uDescription ?? sysUser.uDescription;
+            sysUser.uTitle = sysUserInfo.uTitle ?? sysUser.uTitle;
+            sysUser.uPassword = string.IsNullOrEmpty(sysUserInfo.uPassword) ? sysUser.uPassword : MD5Helper.MD5Encrypt32(sysUserInfo.uPassword);
+
             try
             {
                 _unitOfWork.BeginTran();
                 // 无论 Update Or Add , 先删除当前用户的全部 U_R 关系
-                var usreroles = (await _userRoleServices.Query(d => d.UserId == sysUserInfo.uId)).Select(d => d.Id.ToString()).ToArray();
-                if (usreroles.Count() > 0)
-                {
-                    var isAllDeleted = await _userRoleServices.DeleteByIds(usreroles);
-                }
+                // var usreroles = (await _userRoleServices.Query(d => d.UserId == sysUser.uId)).Select(d => d.Id.ToString()).ToArray();
+                // if (usreroles.Count() > 0)
+                // {
+                //     var isAllDeleted = await _userRoleServices.DeleteByIds(usreroles);
+                // }
 
-                // 然后再执行添加操作
-                var userRolsAdd = new List<UserRole>();
-                sysUserInfo.RIDs.ForEach(rid =>
-                {
-                    userRolsAdd.Add(new UserRole(sysUserInfo.uId, rid));
-                });
+                // // 然后再执行添加操作
+                // var userRolsAdd = new List<UserRole>();
+                // sysUser.RIDs.ForEach(rid =>
+                // {
+                //     userRolsAdd.Add(new UserRole(sysUser.uId, rid));
+                // });
 
-                await _userRoleServices.Add(userRolsAdd);
+                // await _userRoleServices.Add(userRolsAdd);
 
-                data.success = await _sysUserInfoServices.Update(sysUserInfo);
+                data.success = await _sysUserInfoServices.Update(sysUser);
                 _unitOfWork.CommitTran();
 
                 if (data.success)
                 {
                     data.msg = "Update userInfo successfully.";
-                    data.response = sysUserInfo?.uId.ObjToString();
+                    data.response = sysUser?.uId.ObjToString();
                 }
 
             }
