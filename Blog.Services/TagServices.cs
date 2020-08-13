@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Blog.IRepository;
 using Blog.Model;
 using Blog.Models;
+using Blog.Model.ViewModels;
 namespace Blog.Services
 {
     public class TagServices : BaseServices<Tag>, ITagServices
@@ -33,7 +34,7 @@ namespace Blog.Services
         /// <param name="id"></param>
         /// <returns></returns>
         ///   
-        public async Task<MessageModel<PageModel<Tag>>> getTagList(int page, int pageSize, Expression<Func<Tag, bool>> where)
+        public async Task<PageModel<TagViewModels>> getTagList(int page, int pageSize, Expression<Func<Tag, bool>> where)
         {
             PageModel<Tag> tagList = new PageModel<Tag>();
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blog.Model;
+using Blog.Model.ViewModels;
 using Blog.Models;
 using System;
 
@@ -14,6 +15,6 @@ namespace Blog.IServices
     /// </summary>	
     public interface ITagServices : IBaseServices<Tag>
     {
-        Task<MessageModel<PageModel<Tag>>> getTagList(int page, int pageSize, Expression<Func<Tag, bool>> where);
+        Task<PageModel<TagViewModels>> getTagList(int page, int pageSize, Expression<Func<Tag, bool>> where);
     }
 }
