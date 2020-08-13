@@ -57,6 +57,7 @@ namespace Blog.Services
                 data.Add(_mapper.Map<BlogViewModels>(each));
             }
             models.data = data;
+            models.dataCount = blogArticleList.dataCount;
             return models;
         }
 

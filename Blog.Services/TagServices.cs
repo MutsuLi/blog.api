@@ -54,6 +54,7 @@ namespace Blog.Services
                 data.Add(_mapper.Map<TagViewModels>(each));
             }
             models.data = data;
+            models.dataCount = tagList.dataCount;
             return models;
         }
     }
