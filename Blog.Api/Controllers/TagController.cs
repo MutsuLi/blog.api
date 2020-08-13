@@ -6,6 +6,7 @@ using Blog.Common.Helper;
 using Blog.IServices;
 using Blog.Model;
 using Blog.Model.Models;
+using Blog.Model.ViewModels;
 using Blog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace Blog.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         // [Route("list")]
-        public async Task<MessageModel<PageModel<Tag>>> queryTagList(int page = 1, int pageSize = 25, int tagId = -1, string key = "")
+        public async Task<MessageModel<PageModel<TagViewModels>>> queryTagList(int page = 1, int pageSize = 25, int tagId = -1, string key = "")
         {
             Expression<Func<Tag, bool>> where = PredicateBuilder.True<Tag>();
             if (tagId > 0)
@@ -54,13 +55,13 @@ namespace Blog.Api.Controllers
                 where.And(a => (a.tName != null && a.tName.Contains(key)) || (a.tDescription != null && a.tDescription.Contains(key)));
             }
 
-            var tagPageModel = await _tagServices.QueryPage(where, page, pageSize, "tModifyTime desc");
+            var tagPageModel = await _tagServices.getTagList(page, pageSize, where);
 
-            return new MessageModel<PageModel<Tag>>()
+            return new MessageModel<PageModel<TagViewModels>>()
             {
                 success = true,
                 msg = "success",
-                response = new PageModel<Tag>()
+                response = new PageModel<TagViewModels>()
                 {
                     page = page,
                     PageSize = pageSize,

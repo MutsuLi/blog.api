@@ -22,7 +22,8 @@ namespace Blog.Api.AutoMapper
             CreateMap<DateTime, string>().ConvertUsing<DateTimeConverter>();
             CreateMap<BlogArticle, BlogViewModels>().ForMember(d => d.id, o => o.MapFrom(s => s.bId));
             CreateMap<BlogViewModels, BlogArticle>();
-
+            CreateMap<Tag, TagViewModels>();
+            CreateMap<TagViewModels, Tag>();
         }
     }
 }

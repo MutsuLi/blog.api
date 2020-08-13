@@ -44,7 +44,7 @@ namespace Blog.Services
             }
             else
             {
-                tagList = await base.QueryPage(where, page, pageSize, "bId desc");
+                tagList = await base.QueryPage(where, page, pageSize, "tModifyTime desc");
                 _redisCacheManager.Set("Redis.Tag.getTagList", tagList, TimeSpan.FromSeconds(10)); //缓存10sec
             }
             PageModel<TagViewModels> models = new PageModel<TagViewModels>();
