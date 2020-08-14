@@ -113,6 +113,52 @@ namespace Blog.Api.Controllers
         }
 
         /// <summary>
+        /// 获取博客近期热文(Redis)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="bcategory"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        ///  
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("rank")]
+        public async Task<MessageModel<PageModel<BlogRankViewModels>>> getBlogRank(int id, int page = 1, int pageSize = 25, string bcategory = "", string key = "")
+        {
+            Expression<Func<BlogArticle, bool>> where = PredicateBuilder.True<BlogArticle>();
+            if (id > 0)
+            {
+                where.And(a => (a.bId == id && a.IsDeleted == false));
+            }
+            if (!string.IsNullOrEmpty(bcategory))
+            {
+                where.And(a => (a.bcategory == bcategory && a.IsDeleted == false));
+            }
+            if (!string.IsNullOrEmpty(key))
+            {
+                where.And(a => (a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
+            }
+
+            var pageModelBlog = await _blogArticleServices.getBlogRank(page, pageSize, where);
+
+            return new MessageModel<PageModel<BlogRankViewModels>>()
+            {
+                success = true,
+                msg = "success",
+                response = new PageModel<BlogRankViewModels>()
+                {
+                    page = page,
+                    PageSize = pageSize,
+                    dataCount = pageModelBlog.dataCount,
+                    data = pageModelBlog.data,
+                    pageCount = pageModelBlog.pageCount,
+                }
+            };
+        }
+
+        /// <summary>
         /// 添加博客
         /// </summary>
         /// <param name="blogArticle"></param>

@@ -62,6 +62,36 @@ namespace Blog.Services
         }
 
         /// <summary>
+        /// 获取博客近期热文(Redis)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ///  
+        public async Task<PageModel<BlogRankViewModels>> getBlogRank(int page, int pageSize, Expression<Func<BlogArticle, bool>> where)
+        {
+            PageModel<BlogArticle> blogArticleList = new PageModel<BlogArticle>();
+
+            if (_redisCacheManager.Get<object>("Redis.Blog") != null)
+            {
+                blogArticleList.data = _redisCacheManager.Get<List<BlogArticle>>("Redis.Blog.getBlogList");
+            }
+            else
+            {
+                blogArticleList = await base.QueryPage(where, page, pageSize, "bId desc");
+                _redisCacheManager.Set("Redis.Blog.getBlogList", blogArticleList, TimeSpan.FromSeconds(10)); //缓存10sec
+            }
+            PageModel<BlogRankViewModels> models = new PageModel<BlogRankViewModels>();
+            List<BlogRankViewModels> data = new List<BlogRankViewModels>();
+            foreach (var each in blogArticleList.data)
+            {
+                data.Add(_mapper.Map<BlogRankViewModels>(each));
+            }
+            models.data = data;
+            models.dataCount = blogArticleList.dataCount;
+            return models;
+        }
+
+        /// <summary>
         /// 获取视图博客详情信息(一般版本)
         /// </summary>
         /// <param name="id"></param>

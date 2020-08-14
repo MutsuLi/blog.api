@@ -24,6 +24,8 @@ namespace Blog.Api.AutoMapper
             CreateMap<BlogViewModels, BlogArticle>();
             CreateMap<Tag, TagViewModels>();
             CreateMap<TagViewModels, Tag>();
+            CreateMap<BlogArticle, BlogRankViewModels>().ForMember(d => d.id, o => o.MapFrom(s => s.bId));
+            CreateMap<BlogRankViewModels, BlogArticle>();
         }
     }
 }
