@@ -173,11 +173,11 @@ namespace Blog.Api.Controllers
             blogArticle.bUpdateTime = DateTime.Now;
             blogArticle.IsDeleted = false;
 
-            var id = await _blogArticleServices.Add(blogArticle);
-            data.success = id > 0;
+            var id = await _blogArticleServices.createBlogArticle(blogArticle);
+            data.success = !string.IsNullOrEmpty(id);
             if (data.success)
             {
-                data.response = id.ObjToString();
+                data.response = id;
                 data.msg = "New article has been added.";
             }
 

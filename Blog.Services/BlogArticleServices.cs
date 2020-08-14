@@ -61,6 +61,18 @@ namespace Blog.Services
             return models;
         }
 
+
+        public async Task<string> createBlogArticle(BlogArticle blogArticle)
+        {
+            blogArticle.bCreateTime = DateTime.Now;
+            blogArticle.bUpdateTime = DateTime.Now;
+            blogArticle.IsDeleted = false;
+
+            var id = await _dal.Add(blogArticle);
+            updateRank(blogArticle);
+            return id.ObjToString();
+        }
+
         /// <summary>
         /// 获取博客近期热文(Redis)
         /// </summary>
@@ -71,7 +83,7 @@ namespace Blog.Services
         {
             PageModel<BlogArticle> blogArticleList = new PageModel<BlogArticle>();
 
-            if (_redisCacheManager.Get<object>("Redis.Blog") != null)
+            if (_redisCacheManager.SortedSetLength("BlogRank") != 0)
             {
                 blogArticleList.data = _redisCacheManager.Get<List<BlogArticle>>("Redis.Blog.getBlogList");
             }
@@ -120,12 +132,44 @@ namespace Blog.Services
                 models.previous = prevBlogs[1].btitle;
                 models.previousID = prevBlogs[1].bId;
             }
-
+            updateRank(blogArticle);
             blogArticle.btraffic += 1;
             await base.Update(blogArticle, new List<string> { "btraffic" });
-
             return models;
         }
+
+
+        /// <summary>
+        /// 更新点击量
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ///   
+        public void updateRank(BlogArticle article)
+        {
+            string member = string.Format($"{article.bId}@{article.bsubmitterId}@{article.btitle}");
+            _redisCacheManager.SortedSetIncrement("BlogRank", member, article.btraffic);
+        }
+
+
+        /// <summary>
+        /// 初始化点击量
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ///   
+        public async Task<long> initBlogRank(BlogArticle article)
+        {
+            Dictionary<string, int> members = new Dictionary<string, int>();
+            var list = await base.Query();
+            foreach (var each in list)
+            {
+                string member = string.Format($"{each.bId}@{each.bsubmitterId}@{each.btitle}");
+                members.Add(member, each.btraffic);
+            }
+            return _redisCacheManager.SortedSetAdd("BlogRank", members);
+        }
+
 
     }
 

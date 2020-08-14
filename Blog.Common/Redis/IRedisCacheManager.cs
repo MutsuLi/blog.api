@@ -25,6 +25,74 @@ namespace Blog.Common
         //移除某一个缓存值
         void Remove(string key);
 
+        /// <summary>
+        ///     Adds all the specified members with the specified scores to the sorted set stored
+        ///     at key. If a specified member is already a member of the sorted set, the score
+        ///     is updated and the element reinserted at the right position to ensure the correct
+        ///     ordering.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
+        long SortedSetAdd(string key, IDictionary<string, int> members);
+
+
+        /// <summary>
+        /// Sortedset score increase api
+        /// if member doesn't exist,this api will add to the sortedset.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="score"></param>
+        /// <returns>member</returns>
+        double SortedSetIncrement(string key, string member, double score);
+
+
+        /// <summary>
+        /// SortedSet score decrease api
+        /// if value doesn't exist,this api will add to the SortedSet.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <returns>value</returns>
+        double SortedSetDecrement(string key, string member, double score);
+
+        /// <summary>
+        /// Get sortedset's Length.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        long SortedSetLength(string key);
+
+        /// <summary>
+        /// remove the value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        long SortedSetRemove(string key, IList<String> members);
+
+
+        /// <summary>
+        ///  Removes the specified members from the sorted set stored at key. Non existing
+        ///  members are ignored.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="ordering"></param>
+        /// <returns></returns>
+        double SortedSetRank(string key, string member, string ordering);
+
+        /// <summary>
+        /// Get a element's Score in the sortedset.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        double SortedSetScore(string key, string member);
+
         //全部清除
         void Clear();
     }

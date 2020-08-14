@@ -16,5 +16,6 @@ namespace Blog.IServices
         Task<PageModel<BlogViewModels>> getBlogList(int page, int pageSize, Expression<Func<BlogArticle, bool>> where);
         Task<PageModel<BlogRankViewModels>> getBlogRank(int page, int pageSize, Expression<Func<BlogArticle, bool>> where);
         Task<BlogViewModels> getBlogDetails(int id);
+        Task<string> createBlogArticle(BlogArticle blogArticle);
     }
 }
