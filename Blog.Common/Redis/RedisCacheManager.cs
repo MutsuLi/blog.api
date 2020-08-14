@@ -1,7 +1,7 @@
 ﻿using System;
 using StackExchange.Redis;
-
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Blog.Common
 {
@@ -107,6 +107,156 @@ namespace Blog.Common
         public bool SetValue(string key, byte[] value)
         {
             return redisConnection.GetDatabase().StringSet(key, value, TimeSpan.FromSeconds(120));
+        }
+
+        /// <summary>
+        ///     Adds all the specified members with the specified scores to the sorted set stored
+        ///     at key. If a specified member is already a member of the sorted set, the score
+        ///     is updated and the element reinserted at the right position to ensure the correct
+        ///     ordering.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
+        public long SortedSetAdd(string key, IDictionary<string, int> members)
+        {
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetAdd(key, members.Select((pair) => new SortedSetEntry(pair.Key, pair.Value)).ToArray(), CommandFlags.None);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// Sortedset score increase api
+        /// if member doesn't exist,this api will add to the sortedset.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="score"></param>
+        /// <returns>member</returns>
+        public double SortedSetIncrement(string key, string member, double score)
+        {
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetIncrement(key, member, score);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// SortedSet score decrease api
+        /// if value doesn't exist,this api will add to the SortedSet.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <returns>value</returns>
+        public double SortedSetDecrement(string key, string member, double score)
+        {
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetDecrement(key, member, score);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Get sortedset's Length.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public long SortedSetLength(string key)
+        {
+            return redisConnection.GetDatabase().SortedSetLength(key);
+        }
+
+        /// <summary>
+        /// remove the value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public long SortedSetRemove(string key, IList<String> members)
+        {
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetRemove(key, members.Select(e => new RedisValue(e)).ToArray());
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+
+        /// <summary>
+        ///  Removes the specified members from the sorted set stored at key. Non existing
+        ///  members are ignored.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="ordering"></param>
+        /// <returns></returns>
+        public double SortedSetRank(string key, string member, string ordering)
+        {
+            Order order = (ordering.IndexOf("desc") > -1) ? Order.Descending : Order.Ascending;
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetRank(key, member, order) ?? 0;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Get a element's Score in the sortedset.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public double SortedSetScore(string key, string member)
+        {
+            try
+            {
+                if ((object)key == null)
+                    return 0;
+                else
+                    return redisConnection.GetDatabase().SortedSetScore(key, member) ?? 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
