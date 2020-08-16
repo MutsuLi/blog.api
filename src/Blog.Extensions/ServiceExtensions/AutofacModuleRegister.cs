@@ -4,13 +4,13 @@ using System.IO;
 using System.Reflection;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Blog.Api.AOP;
 using Blog.Api.Common;
+using Blog.Api.Extensions.AOP;
 using Blog.Model;
 using log4net;
 
 
-namespace Blog.Extensions.ServiceExtensions
+namespace Blog.Api.Extensions.ServiceExtensions
 {
     public class AutofacModuleRegister : Autofac.Module
     {

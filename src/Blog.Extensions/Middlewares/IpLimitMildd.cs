@@ -4,7 +4,7 @@ using Blog.Api.Common;
 using log4net;
 using Microsoft.AspNetCore.Builder;
 
-namespace Blog.Core.Extensions
+namespace Blog.Api.Extensions
 {
     /// <summary>
     /// ip 限流

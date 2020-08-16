@@ -5,7 +5,7 @@ using Blog.Api.Common.LogHelper;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Blog.Core.Middlewares
+namespace Blog.Api.Middlewares
 {
     /// <summary>
     /// 中间件

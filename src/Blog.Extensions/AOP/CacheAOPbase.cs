@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Blog.Api.AOP
+namespace Blog.Api.Extensions.AOP
 {
     public abstract class CacheAOPbase : IInterceptor
     {

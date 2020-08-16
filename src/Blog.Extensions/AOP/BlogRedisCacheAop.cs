@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Blog.Common;
 using Castle.DynamicProxy;
 
-namespace Blog.Api.AOP
+namespace Blog.Api.Extensions.AOP
 {
     /// <summary>
     /// 面向切面的缓存使用

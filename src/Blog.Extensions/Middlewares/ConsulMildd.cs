@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-namespace Blog.Core.Extensions
+namespace Blog.Api.Extensions
 {
     /// <summary>
     /// Consul 注册服务

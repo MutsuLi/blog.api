@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using StackExchange.Profiling;
 
-namespace Blog.Api.AOP
+namespace Blog.Api.Extensions.AOP
 {
     /// <summary>
     /// 拦截器BlogLogAOP 继承IInterceptor接口
