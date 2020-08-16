@@ -52,11 +52,11 @@ namespace Blog.Api.Extensions.ServiceExtensions
                 builder.RegisterType<BlogTranAOP>();
                 cacheType.Add(typeof(BlogTranAOP));
             }
-            if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
-            {
-                builder.RegisterType<BlogLogAOP>();
-                cacheType.Add(typeof(BlogLogAOP));
-            }
+            // if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
+            // {
+            //     builder.RegisterType<BlogLogAOP>();
+            //     cacheType.Add(typeof(BlogLogAOP));
+            // }
 
             // 获取 Service.dll 程序集服务，并注册
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
