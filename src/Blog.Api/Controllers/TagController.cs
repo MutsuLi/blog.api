@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Blog.Common.Helper;
+using Blog.Api.Common.Helper;
 using Blog.IServices;
 using Blog.Model;
 using Blog.Model.Models;

@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using Blog.Api.Common;
 
-namespace Blog.Common.AppConfig
+namespace Blog.Api.Common.AppConfig
 {
     public class AppSecretConfig
     {

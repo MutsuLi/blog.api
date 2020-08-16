@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blog.Common.LogHelper
+namespace Blog.Api.Common.LogHelper
 {
     public class LogInfo
     {

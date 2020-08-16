@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Blog.Common.Helper
+namespace Blog.Api.Common.Helper
 {
     public class GetNetData
     {

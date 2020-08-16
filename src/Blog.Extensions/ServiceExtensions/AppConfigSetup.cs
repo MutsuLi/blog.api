@@ -1,8 +1,8 @@
-﻿using Blog.Common;
-using Blog.Common.Helper;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Text;
+using Blog.Api.Common;
+using Blog.Api.Common.Helper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Api.Extensions
 {

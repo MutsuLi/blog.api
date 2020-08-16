@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace Blog.Common.HttpContextUser
+namespace Blog.Api.Common.HttpContextUser
 {
     public class AspNetUser : IUser
     {

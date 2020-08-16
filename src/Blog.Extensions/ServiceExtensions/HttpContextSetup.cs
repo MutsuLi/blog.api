@@ -1,7 +1,7 @@
-﻿using Blog.Common.HttpContextUser;
+﻿using System;
+using Blog.Api.Common.HttpContextUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Blog.Api.Extensions
 {

@@ -1,6 +1,6 @@
-﻿using Blog.Common;
+﻿using System;
+using Blog.Api.Common;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Blog.Api.Extensions
 {

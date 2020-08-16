@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Blog.Common;
+using Blog.Api.Common;
 
-namespace Blog.Core.Common.DB
+namespace Blog.Api.Common.DB
 {
     public class BaseDBConfig
     {

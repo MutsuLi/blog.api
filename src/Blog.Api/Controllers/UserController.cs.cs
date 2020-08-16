@@ -1,20 +1,17 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Blog.IServices;
-using Blog.Common;
-using Blog.Common.Helper;
-using Blog.Common.HttpContextUser;
-using Blog.Model;
-using Blog.Model.Models;
-using Microsoft.Extensions.Logging;
-using Blog.IRepository.IUnitOfWork;
-using System.Threading.Tasks;
-using Blog.Models;
-using System.Linq.Expressions;
 using System;
 using System.Linq;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blog.Api.Common.Helper;
+using Blog.Api.Common.HttpContextUser;
 using Blog.AuthHelper.OverWrite;
+using Blog.IRepository.IUnitOfWork;
+using Blog.IServices;
+using Blog.Model;
+using Blog.Model.Models;
+using Blog.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Blog.Api.Controllers
 {

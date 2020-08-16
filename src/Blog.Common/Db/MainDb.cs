@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blog.Common.DB
+namespace Blog.Api.Common.DB
 {
     public static class MainDb
     {

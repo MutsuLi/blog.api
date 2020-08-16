@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Blog.Common.DB;
-using Blog.Core.Common.DB;
+using Blog.Api.Common.DB;
 using SqlSugar;
 
 namespace Blog.Model.Models

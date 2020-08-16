@@ -4,8 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Blog.Common;
-using Blog.Common.AppConfig;
+using Blog.Api.Common;
+using Blog.Api.Common.AppConfig;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.AuthHelper.OverWrite

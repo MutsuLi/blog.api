@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Blog.Common.LogHelper;
+using Blog.Api.Common.LogHelper;
 using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using StackExchange.Profiling;
 

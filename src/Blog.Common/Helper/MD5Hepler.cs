@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Blog.Common.Helper
+namespace Blog.Api.Common.Helper
 {
     public class MD5Helper
     {

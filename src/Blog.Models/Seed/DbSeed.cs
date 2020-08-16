@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blog.Common;
-using Blog.Common.DB;
-using Blog.Common.Helper;
-using Blog.Core.Common.DB;
+using Blog.Api.Common;
+using Blog.Api.Common.DB;
+using Blog.Api.Common.Helper;
 
 namespace Blog.Model.Models
 {

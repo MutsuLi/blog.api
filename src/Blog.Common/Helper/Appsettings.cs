@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
-namespace Blog.Common
+namespace Blog.Api.Common
 {
     /// <summary>
     /// appsettings.json操作类
@@ -64,6 +61,7 @@ namespace Blog.Common
         public static List<T> app<T>(params string[] sections)
         {
             List<T> list = new List<T>();
+            // 引用 Microsoft.Extensions.Configuration.Binder 包
             Configuration.Bind(string.Join(":", sections), list);
             return list;
         }

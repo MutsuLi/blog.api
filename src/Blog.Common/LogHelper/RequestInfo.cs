@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Blog.Common.LogHelper
+namespace Blog.Api.Common.LogHelper
 {
     public class ApiWeek
     {

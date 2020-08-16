@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 using System.Collections.Generic;
-namespace Blog.Common.Helper
+namespace Blog.Api.Common.Helper
 {
     public static class PredicateBuilder
     {

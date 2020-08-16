@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Text;
-using Newtonsoft.Json;
 
-namespace Blog.Common
+namespace Blog.Api.Common
 {
     public class SerializeHelper
     {

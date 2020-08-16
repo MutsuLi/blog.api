@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Linq;
+using Blog.Api.Common;
 
 namespace Blog.Common
 {

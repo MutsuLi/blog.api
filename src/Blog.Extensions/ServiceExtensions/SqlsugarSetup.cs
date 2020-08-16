@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blog.Common;
-using Blog.Common.DB;
-using Blog.Common.LogHelper;
-using Blog.Core.Common.DB;
+using Blog.Api.Common;
+using Blog.Api.Common.DB;
+using Blog.Api.Common.LogHelper;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using StackExchange.Profiling;
