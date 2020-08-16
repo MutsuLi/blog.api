@@ -6,7 +6,7 @@ using Blog.Api.Common;
 using Blog.IRepository.IUnitOfWork;
 using Castle.DynamicProxy;
 
-namespace Blog.Core.AOP
+namespace Blog.Api.AOP
 {
     /// <summary>
     /// 事务拦截器BlogTranAOP 继承IInterceptor接口

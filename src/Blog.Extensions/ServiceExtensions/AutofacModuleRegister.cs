@@ -6,7 +6,6 @@ using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Api.AOP;
 using Blog.Api.Common;
-using Blog.Core.AOP;
 using Blog.Model;
 using log4net;
 
@@ -24,8 +23,8 @@ namespace Blog.Extensions.ServiceExtensions
 
             #region 带有接口层的服务注入
 
-            var servicesDllFile = Path.Combine(basePath, "Blog.Core.Services.dll");
-            var repositoryDllFile = Path.Combine(basePath, "Blog.Core.Repository.dll");
+            var servicesDllFile = Path.Combine(basePath, "Blog.Services.dll");
+            var repositoryDllFile = Path.Combine(basePath, "Blog.Repository.dll");
 
             if (!(File.Exists(servicesDllFile) && File.Exists(repositoryDllFile)))
             {

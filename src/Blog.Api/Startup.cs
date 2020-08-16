@@ -60,14 +60,14 @@ namespace Blog.Api
 
             // 授权+认证 (jwt or ids4)
             services.AddAuthorizationSetup();
-            //if (Permissions.IsUseIds4)
-            //{
-            //    services.AddAuthentication_Ids4Setup();
-            //}
-            //else
-            //{
-            //    services.AddAuthentication_JWTSetup();
-            //}
+            if (Permissions.IsUseIds4)
+            {
+                services.AddAuthentication_Ids4Setup();
+            }
+            else
+            {
+                services.AddAuthentication_JWTSetup();
+            }
 
             //services.AddIpPolicyRateLimitSetup(Configuration);
 
@@ -108,7 +108,7 @@ namespace Blog.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContext myContext, ITasksQzServices tasksQzServices, IHostApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContext myContext, IHostApplicationLifetime lifetime)
         {
             // Ip限流,尽量放管道外层
             //app.UseIpLimitMildd();
@@ -135,7 +135,7 @@ namespace Blog.Api
             }
 
             // 封装Swagger展示
-            app.UseSwaggerMildd(() => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Blog.Core.Api.index.html"));
+            app.UseSwaggerMildd(() => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Blog.Api.index.html"));
 
             // ↓↓↓↓↓↓ 注意下边这些中间件的顺序，很重要 ↓↓↓↓↓↓
 

@@ -11,6 +11,7 @@ COPY ["Blog.Api/Blog.Api.csproj", "Blog.Api/"]
 COPY ["Blog.IRepository/Blog.IRepository.csproj", "Blog.IRepository/"]
 COPY ["Blog.Models/Blog.Model.csproj", "Blog.Models/"]
 COPY ["Blog.Common/Blog.Common.csproj", "Blog.Common/"]
+COPY ["Blog.Extensions/Blog.Extensions.csproj", "Blog.Extensions/"]
 COPY ["Blog.IService/Blog.IServices.csproj", "Blog.IService/"]
 RUN dotnet restore "Blog.Api/Blog.Api.csproj"
 COPY . .

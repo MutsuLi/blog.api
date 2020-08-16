@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
+    <PackageReference Include="sqlSugar" Version="5.0.0.15" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SqlSugarCore" Version="5.0.0.14" />
+    <ProjectReference Include="..\Blog.Models\Blog.Model.csproj" />
   </ItemGroup>
 
 </Project>

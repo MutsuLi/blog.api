@@ -19,8 +19,8 @@ namespace Blog.Api.Extensions
             if (app == null) throw new ArgumentNullException(nameof(app));
 
             List<Type> tsDIAutofac = new List<Type>();
-            tsDIAutofac.AddRange(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "Blog.Core.Services.dll")).GetTypes().ToList());
-            tsDIAutofac.AddRange(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "Blog.Core.Repository.dll")).GetTypes().ToList());
+            tsDIAutofac.AddRange(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "Blog.Services.dll")).GetTypes().ToList());
+            tsDIAutofac.AddRange(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "Blog.Repository.dll")).GetTypes().ToList());
 
             app.Map("/allservices", builder => builder.Run(async context =>
             {
