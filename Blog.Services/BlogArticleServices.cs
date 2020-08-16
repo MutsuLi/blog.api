@@ -69,7 +69,8 @@ namespace Blog.Services
             blogArticle.IsDeleted = false;
 
             var id = await _dal.Add(blogArticle);
-            updateRank(blogArticle);
+            blogArticle.bId = id;
+            updateRank(blogArticle, blogArticle.btraffic);
             return id.ObjToString();
         }
 
@@ -81,26 +82,16 @@ namespace Blog.Services
         ///  
         public async Task<PageModel<BlogRankViewModels>> getBlogRank(int page, int pageSize, Expression<Func<BlogArticle, bool>> where)
         {
-            PageModel<BlogArticle> blogArticleList = new PageModel<BlogArticle>();
-
-            if (_redisCacheManager.SortedSetLength("BlogRank") != 0)
+            PageModel<BlogRankViewModels> blogArticleList = new PageModel<BlogRankViewModels>();
+            if (_redisCacheManager.SortedSetLength("BlogRank") == 0)
             {
-                blogArticleList.data = _redisCacheManager.Get<List<BlogArticle>>("Redis.Blog.getBlogList");
+                await initBlogRank("BlogRank");
             }
-            else
-            {
-                blogArticleList = await base.QueryPage(where, page, pageSize, "bId desc");
-                _redisCacheManager.Set("Redis.Blog.getBlogList", blogArticleList, TimeSpan.FromSeconds(10)); //缓存10sec
-            }
-            PageModel<BlogRankViewModels> models = new PageModel<BlogRankViewModels>();
-            List<BlogRankViewModels> data = new List<BlogRankViewModels>();
-            foreach (var each in blogArticleList.data)
-            {
-                data.Add(_mapper.Map<BlogRankViewModels>(each));
-            }
-            models.data = data;
-            models.dataCount = blogArticleList.dataCount;
-            return models;
+            blogArticleList.data = (
+                from each in _redisCacheManager.SortedSetRangeByRank("BlogRank", 0, 4, "desc")
+                select new BlogRankViewModels(Convert.ToInt32(each.Key.Split('@')[0]), each.Key.Split('@')[1].ToString(), each.Key.Split('@')[2].ToString(), (int)each.Value)).ToList();
+            blogArticleList.dataCount = 5;
+            return blogArticleList;
         }
 
         /// <summary>
@@ -132,7 +123,7 @@ namespace Blog.Services
                 models.previous = prevBlogs[1].btitle;
                 models.previousID = prevBlogs[1].bId;
             }
-            updateRank(blogArticle);
+            updateRank(blogArticle,1);
             blogArticle.btraffic += 1;
             await base.Update(blogArticle, new List<string> { "btraffic" });
             return models;
@@ -142,23 +133,24 @@ namespace Blog.Services
         /// <summary>
         /// 更新点击量
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="article"></param>
+        /// <param name="increment"></param>
         /// <returns></returns>
         ///   
-        public void updateRank(BlogArticle article)
+        public void updateRank(BlogArticle article,double increment)
         {
             string member = string.Format($"{article.bId}@{article.bsubmitterId}@{article.btitle}");
-            _redisCacheManager.SortedSetIncrement("BlogRank", member, article.btraffic);
+            _redisCacheManager.SortedSetIncrement("BlogRank", member, increment);
         }
 
 
         /// <summary>
-        /// 初始化点击量
+        /// 初始化点击榜单
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         ///   
-        public async Task<long> initBlogRank(BlogArticle article)
+        public async Task<long> initBlogRank(string key)
         {
             Dictionary<string, int> members = new Dictionary<string, int>();
             var list = await base.Query();
@@ -167,7 +159,7 @@ namespace Blog.Services
                 string member = string.Format($"{each.bId}@{each.bsubmitterId}@{each.btitle}");
                 members.Add(member, each.btraffic);
             }
-            return _redisCacheManager.SortedSetAdd("BlogRank", members);
+            return _redisCacheManager.SortedSetAdd(key, members);
         }
 
 

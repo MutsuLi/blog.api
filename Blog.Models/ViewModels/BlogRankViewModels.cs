@@ -11,15 +11,19 @@ namespace Blog.Model.ViewModels
     /// </summary>
     public class BlogRankViewModels
     {
+
+        public BlogRankViewModels(int _id, string _submitterId, string _title, int _traffic)
+        {
+
+            id = _id;
+            bsubmitterId = _submitterId;
+            btitle = _title;
+            btraffic = _traffic;
+        }
         /// <summary>
         ///  blogid
         /// </summary>
         public int id { get; set; }
-        
-        /// <summary>创建人
-        /// 
-        /// </summary>
-        public string bsubmitter { get; set; }
 
         /// <summary>创建人ID
         /// 

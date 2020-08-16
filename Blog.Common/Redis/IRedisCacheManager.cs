@@ -80,10 +80,11 @@ namespace Blog.Common
         ///  members are ignored.
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="member"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="ordering"></param>
         /// <returns></returns>
-        double SortedSetRank(string key, string member, string ordering);
+        Dictionary<string, double> SortedSetRangeByRank(string key, int start, int end, string ordering);
 
         /// <summary>
         /// Get a element's Score in the sortedset.

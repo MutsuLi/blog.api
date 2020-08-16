@@ -219,22 +219,26 @@ namespace Blog.Common
         ///  members are ignored.
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="member"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <param name="ordering"></param>
         /// <returns></returns>
-        public double SortedSetRank(string key, string member, string ordering)
+        public Dictionary<string,double> SortedSetRangeByRank(string key, int start,int end, string ordering)
         {
             Order order = (ordering.IndexOf("desc") > -1) ? Order.Descending : Order.Ascending;
+            Dictionary<string, double> ranks = new Dictionary<string, double>();
             try
             {
                 if ((object)key == null)
-                    return 0;
+                    return ranks;
                 else
-                    return redisConnection.GetDatabase().SortedSetRank(key, member, order) ?? 0;
+                {
+                    return redisConnection.GetDatabase().SortedSetRangeByRankWithScores(key, start, end, order).ToDictionary(t => t.Element.ToString(), t => t.Score);
+                }
             }
             catch (Exception)
             {
-                return 0;
+                return ranks;
             }
         }
 
