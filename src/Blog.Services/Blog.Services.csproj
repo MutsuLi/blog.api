@@ -6,10 +6,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
-    <ProjectReference Include="..\Blog.Common\Blog.Common.csproj" />
     <ProjectReference Include="..\Blog.IServices\Blog.IServices.csproj" />
-    <ProjectReference Include="..\Blog.Model\Blog.Model.csproj" />
+    <ProjectReference Include="..\Blog.Repository\Blog.Repository.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -18,3 +16,4 @@
     <OutputPath>..\Blog.Api\bin\Debug\</OutputPath>
   </PropertyGroup>
 </Project>
+

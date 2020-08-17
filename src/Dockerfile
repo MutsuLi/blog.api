@@ -8,13 +8,13 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Blog.Api/Blog.Api.csproj", "Blog.Api/"]
-COPY ["Blog.IRepository/Blog.IRepository.csproj", "Blog.IRepository/"]
+COPY ["Blog.Extensions/Blog.Extensions.csproj", "Blog.Extensions/"]
+COPY ["Blog.Services/Blog.Services.csproj", "Blog.Services/"]
+COPY ["Blog.Repository/Blog.Repository.csproj", "Blog.Repository/"]
 COPY ["Blog.Model/Blog.Model.csproj", "Blog.Model/"]
 COPY ["Blog.Common/Blog.Common.csproj", "Blog.Common/"]
-COPY ["Blog.Extensions/Blog.Extensions.csproj", "Blog.Extensions/"]
+COPY ["Blog.IRepository/Blog.IRepository.csproj", "Blog.IRepository/"]
 COPY ["Blog.IServices/Blog.IServices.csproj", "Blog.IServices/"]
-COPY ["Blog.Repository/Blog.Repository.csproj", "Blog.Repository/"]
-COPY ["Blog.Services/Blog.Services.csproj", "Blog.Services/"]
 RUN dotnet restore "Blog.Api/Blog.Api.csproj"
 COPY . .
 WORKDIR "/src/Blog.Api"

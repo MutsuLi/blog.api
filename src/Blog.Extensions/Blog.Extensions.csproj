@@ -30,9 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blog.Common\Blog.Common.csproj" />
-    <ProjectReference Include="..\Blog.IRepository\Blog.IRepository.csproj" />
-    <ProjectReference Include="..\Blog.IServices\Blog.IServices.csproj" />
+    <ProjectReference Include="..\Blog.Services\Blog.Services.csproj" />
   </ItemGroup>
 
 </Project>

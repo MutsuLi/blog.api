@@ -57,6 +57,7 @@ namespace Blog.Services
             }
             models.data = data;
             models.dataCount = blogArticleList.dataCount;
+            models.pageCount = blogArticleList.pageCount;
             return models;
         }
 

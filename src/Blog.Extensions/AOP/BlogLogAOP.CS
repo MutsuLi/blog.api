@@ -20,7 +20,6 @@ namespace Blog.Api.Extensions.AOP
 
         public BlogLogAOP(IHttpContextAccessor accessor)
         {
-            // _hubContext = hubContext;
             _accessor = accessor;
         }
         //public BlogLogAOP(IHubContext<ChatHub> hubContext, IHttpContextAccessor accessor)
