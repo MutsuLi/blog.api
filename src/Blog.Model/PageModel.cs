@@ -16,7 +16,7 @@ namespace Blog.Models
         /// <summary>
         /// 总页数
         /// </summary>
-        public int pageCount { get; set; } = 6;
+        public int pageCount { get; set; } = 0;
         /// <summary>
         /// 数据总数
         /// </summary>
