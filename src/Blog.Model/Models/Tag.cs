@@ -52,11 +52,14 @@ namespace Blog.Model.Models
         /// <summary> 
         /// 修改时间
         /// </summary>
+        /// 
+        [SugarColumn(SerializeDateTimeFormat =SugarDateTimeFormat.Date)]
         public DateTime tModifyTime { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
+        [SugarColumn(SerializeDateTimeFormat = SugarDateTimeFormat.Date)]
         public System.DateTime tCreateTime { get; set; }
 
         /// <summary>
