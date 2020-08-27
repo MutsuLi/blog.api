@@ -1,5 +1,5 @@
 using System;
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     public class Advertisement
     {

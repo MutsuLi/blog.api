@@ -4,9 +4,9 @@ using System.IO;
 using Blog.Api.Common.DB;
 using SqlSugar;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
-    public class DbContext
+    public class sugarDbContext
     {
 
         private static MutiDBOperate connectObject => GetMainConnectionDb();
@@ -67,11 +67,11 @@ namespace Blog.Model.Models
         /// 数据库上下文实例（自动关闭连接）
         /// Blog.Core 
         /// </summary>
-        public static DbContext Context
+        public static sugarDbContext Context
         {
             get
             {
-                return new DbContext();
+                return new sugarDbContext();
             }
 
         }
@@ -81,7 +81,7 @@ namespace Blog.Model.Models
         /// 功能描述:构造函数
         /// 作　　者:Blog.Core
         /// </summary>
-        public DbContext()
+        public sugarDbContext()
         {
             if (string.IsNullOrEmpty(_connectionString))
                 throw new ArgumentNullException("数据库连接字符串为空");
@@ -186,7 +186,7 @@ namespace " + strNameSpace + @"
 
                  .SettingClassTemplate(p => p = @"
 using Blog.IRepository.Base;
-using Blog.Model.Models;
+using Blog.Api.Models;
 
 namespace " + strNameSpace + @"
 {
@@ -230,7 +230,7 @@ namespace " + strNameSpace + @"
 
                   .SettingClassTemplate(p => p = @"
 using Blog.IServices.Base;
-using Blog.Model.Models;
+using Blog.Api.Models;
 
 namespace " + strNameSpace + @"
 {	
@@ -279,7 +279,7 @@ namespace " + strNameSpace + @"
                   .SettingClassTemplate(p => p = @"
 using Blog.IRepository;
 using Blog.IRepository.UnitOfWork;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Repository.Base;
 
 namespace " + strNameSpace + @"
@@ -330,7 +330,7 @@ namespace " + strNameSpace + @"
                   .SettingClassTemplate(p => p = @"
 using Blog.IRepository;
 using Blog.IServices;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Services.Base;
 
 namespace " + strNameSpace + @"
@@ -456,9 +456,9 @@ namespace " + strNameSpace + @"
         /// 作　　者:Blog.Core
         /// </summary>
         /// <returns></returns>
-        public static DbContext GetDbContext()
+        public static sugarDbContext GetDbContext()
         {
-            return new DbContext();
+            return new sugarDbContext();
         }
 
         /// <summary>

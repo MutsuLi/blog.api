@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Blog.Common;
 using Blog.IRepository;
 using Blog.IServices;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Services.Base;
 
 namespace Blog.Services

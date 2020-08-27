@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blog.Core.Model.Models;
+using Blog.Api.Models;
 using Blog.IRepository;
 using Blog.IRepository.IUnitOfWork;
-using Blog.Model.Models;
 using Blog.Repository.Base;
 using SqlSugar;
 

@@ -1,5 +1,5 @@
 using Blog.IServices.Base;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Model.ViewModels;
 using Blog.Models;
 using System;

@@ -8,7 +8,7 @@ using Blog.Api.Common;
 using Blog.Api.Common.DB;
 using Blog.Api.Common.Helper;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     public class DBSeed
     {
@@ -30,7 +30,7 @@ namespace Blog.Model.Models
         /// <param name="DbContext"></param>
         /// <param name="WebRootPath"></param>
         /// <returns></returns>
-        public static async Task SeedAsync(DbContext DbContext, string WebRootPath)
+        public static async Task SeedAsync(sugarDbContext DbContext, string WebRootPath)
         {
             try
             {
@@ -48,8 +48,8 @@ namespace Blog.Model.Models
                 Console.WriteLine();
                 if (Appsettings.app(new string[] { "MutiDBEnabled" }).ObjToBool())
                 {
-                    Console.WriteLine($"Master DB Type: {DbContext.DbType}");
-                    Console.WriteLine($"Master DB ConnectString: {DbContext.ConnectionString}");
+                    Console.WriteLine($"Master DB Type: {sugarDbContext.DbType}");
+                    Console.WriteLine($"Master DB ConnectString: {sugarDbContext.ConnectionString}");
                     Console.WriteLine();
 
                     var slaveIndex = 0;
@@ -64,8 +64,8 @@ namespace Blog.Model.Models
                 }
                 else if (Appsettings.app(new string[] { "CQRSEnabled" }).ObjToBool())
                 {
-                    Console.WriteLine($"Master DB Type: {DbContext.DbType}");
-                    Console.WriteLine($"Master DB ConnectString: {DbContext.ConnectionString}");
+                    Console.WriteLine($"Master DB Type: {sugarDbContext.DbType}");
+                    Console.WriteLine($"Master DB ConnectString: {sugarDbContext.ConnectionString}");
                     Console.WriteLine();
 
                     var slaveIndex = 0;
@@ -80,8 +80,8 @@ namespace Blog.Model.Models
                 }
                 else
                 {
-                    Console.WriteLine("DB Type: " + DbContext.DbType);
-                    Console.WriteLine("DB ConnectString: " + DbContext.ConnectionString);
+                    Console.WriteLine("DB Type: " + sugarDbContext.DbType);
+                    Console.WriteLine("DB ConnectString: " + sugarDbContext.ConnectionString);
                 }
 
                 Console.WriteLine();
@@ -96,7 +96,6 @@ namespace Blog.Model.Models
                 DbContext.CreateTableByEntity(false,
                     typeof(Advertisement),
                     typeof(BlogArticle),
-                    typeof(Guestbook),
                     typeof(Module),
                     typeof(ModulePermission),
                     typeof(OperateLog),

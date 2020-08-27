@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     /// <summary>
     /// 接口API地址信息表

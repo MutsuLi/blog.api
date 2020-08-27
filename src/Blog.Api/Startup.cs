@@ -7,7 +7,7 @@ using Blog.Api.Extensions.ServiceExtensions;
 using Blog.Api.Filter;
 using Blog.Api.Middlewares;
 using Blog.Common;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -106,7 +106,7 @@ namespace Blog.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContext myContext, IHostApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, sugarDbContext myContext, IHostApplicationLifetime lifetime)
         {
             // Ip限流,尽量放管道外层
             //app.UseIpLimitMildd();

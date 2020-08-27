@@ -1,4 +1,4 @@
-﻿using Blog.Model.Models;
+﻿using Blog.Api.Models;
 
 namespace Blog.Model.ViewModels
 {

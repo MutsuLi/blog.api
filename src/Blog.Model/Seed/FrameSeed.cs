@@ -1,7 +1,6 @@
 ﻿using System;
-using Blog.Model.Models;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     public class FrameSeed
     {
@@ -9,10 +8,10 @@ namespace Blog.Model.Models
         /// <summary>
         /// 生成Model层
         /// </summary>
-        /// <param name="DbContext">上下文</param>
+        /// <param name="sugarDbContext">上下文</param>
         /// <param name="tableNames">数据库表名数组，默认空，生成所有表</param>
         /// <returns></returns>
-        public static bool CreateModels(DbContext DbContext, string[] tableNames = null)
+        public static bool CreateModels(sugarDbContext DbContext, string[] tableNames = null)
         {
 
             try
@@ -33,7 +32,7 @@ namespace Blog.Model.Models
         /// <param name="DbContext">上下文</param>
         /// <param name="tableNames">数据库表名数组，默认空，生成所有表</param>
         /// <returns></returns>
-        public static bool CreateIRepositorys(DbContext DbContext, string[] tableNames = null)
+        public static bool CreateIRepositorys(sugarDbContext DbContext, string[] tableNames = null)
         {
 
             try
@@ -56,7 +55,7 @@ namespace Blog.Model.Models
         /// <param name="DbContext">上下文</param>
         /// <param name="tableNames">数据库表名数组，默认空，生成所有表</param>
         /// <returns></returns>
-        public static bool CreateIServices(DbContext DbContext, string[] tableNames = null)
+        public static bool CreateIServices(sugarDbContext DbContext, string[] tableNames = null)
         {
 
             try
@@ -79,7 +78,7 @@ namespace Blog.Model.Models
         /// <param name="DbContext">上下文</param>
         /// <param name="tableNames">数据库表名数组，默认空，生成所有表</param>
         /// <returns></returns>
-        public static bool CreateRepository(DbContext DbContext, string[] tableNames = null)
+        public static bool CreateRepository(sugarDbContext DbContext, string[] tableNames = null)
         {
 
             try
@@ -102,7 +101,7 @@ namespace Blog.Model.Models
         /// <param name="DbContext">上下文</param>
         /// <param name="tableNames">数据库表名数组，默认空，生成所有表</param>
         /// <returns></returns>
-        public static bool CreateServices(DbContext DbContext, string[] tableNames = null)
+        public static bool CreateServices(sugarDbContext DbContext, string[] tableNames = null)
         {
 
             try

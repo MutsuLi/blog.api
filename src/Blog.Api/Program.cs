@@ -1,6 +1,6 @@
 using System;
 using Autofac.Extensions.DependencyInjection;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using log4net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +31,7 @@ namespace Blog.Api
                     var configuration = services.GetRequiredService<IConfiguration>();
                     if (configuration.GetSection("AppSettings")["SeedDBEnabled"].ObjToBool() || configuration.GetSection("AppSettings")["SeedDBDataEnabled"].ObjToBool())
                     {
-                        var myContext = services.GetRequiredService<DbContext>();
+                        var myContext = services.GetRequiredService<sugarDbContext>();
                         var Env = services.GetRequiredService<IWebHostEnvironment>();
                         DBSeed.SeedAsync(myContext, Env.WebRootPath).Wait();
                     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using Blog.Api.Common;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using log4net;
 using Microsoft.AspNetCore.Builder;
 
@@ -12,7 +12,7 @@ namespace Blog.Api.Extensions
     public static class SeedDataMildd
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(SeedDataMildd));
-        public static void UseSeedDataMildd(this IApplicationBuilder app, DbContext myContext, string webRootPath)
+        public static void UseSeedDataMildd(this IApplicationBuilder app, sugarDbContext myContext, string webRootPath)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
 

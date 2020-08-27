@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Blog.IServices.Base;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using System.Collections.Generic;
 
 namespace Blog.IServices

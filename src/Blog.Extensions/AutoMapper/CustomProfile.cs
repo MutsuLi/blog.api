@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Model.ViewModels;
 using System;
 

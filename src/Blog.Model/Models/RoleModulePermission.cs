@@ -1,7 +1,7 @@
 ﻿using SqlSugar;
 using System;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     /// <summary>
     /// 按钮跟权限关联表

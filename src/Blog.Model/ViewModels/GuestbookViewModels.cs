@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blog.Model.Models;
+using Blog.Api.Models;
 
 namespace Blog.Model.ViewModels
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Blog.Api.Common.Helper;
 using Blog.IServices;
 using Blog.Model;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Model.ViewModels;
 using Blog.Models;
 using Microsoft.AspNetCore.Authorization;

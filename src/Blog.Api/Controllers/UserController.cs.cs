@@ -7,7 +7,7 @@ using Blog.AuthHelper.OverWrite;
 using Blog.IRepository.IUnitOfWork;
 using Blog.IServices;
 using Blog.Model;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

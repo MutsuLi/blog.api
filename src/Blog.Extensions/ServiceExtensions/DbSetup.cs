@@ -1,5 +1,4 @@
-﻿using Blog.Core.Model.Models;
-using Blog.Model.Models;
+﻿using Blog.Api.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -15,7 +14,7 @@ namespace Blog.Api.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             services.AddScoped<DBSeed>();
-            services.AddScoped<DbContext>();
+            services.AddScoped<sugarDbContext>();
         }
     }
 }

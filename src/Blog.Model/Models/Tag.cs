@@ -1,7 +1,7 @@
 using System;
 using SqlSugar;
 
-namespace Blog.Model.Models
+namespace Blog.Api.Models
 {
     public class Tag
     {

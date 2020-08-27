@@ -1,7 +1,7 @@
 ﻿using SqlSugar;
 using System;
 
-namespace Blog.Core.Model.Models
+namespace Blog.Api.Models
 {
 
     public class TestMuchTableResult

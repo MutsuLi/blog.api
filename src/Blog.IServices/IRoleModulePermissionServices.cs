@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Blog.IServices.Base;
-using Blog.Model.Models;
+using Blog.Api.Models;
 
 namespace Blog.IServices
 {

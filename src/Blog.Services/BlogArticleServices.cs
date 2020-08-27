@@ -7,7 +7,7 @@ using AutoMapper;
 using Blog.Common;
 using Blog.IRepository;
 using Blog.IServices;
-using Blog.Model.Models;
+using Blog.Api.Models;
 using Blog.Model.ViewModels;
 using Blog.Models;
 using Blog.Services.Base;
