@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Blog.IRepository.Base
 {
@@ -29,6 +31,9 @@ namespace Blog.IRepository.Base
         /// 根据对象进行更新
         /// </summary>
         /// <param name="obj"></param>
+        /// 
+        public Task<List<TEntity>> GetAllAsync();
+
         void Update(TEntity obj);
         /// <summary>
         /// 根据id删除

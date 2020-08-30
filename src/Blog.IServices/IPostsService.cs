@@ -1,18 +1,13 @@
-using Blog.IServices.Base;
+using System.Threading.Tasks;
 using Blog.Api.Models;
+using Blog.IServices.Base;
 using Blog.Model.ViewModels;
 using Blog.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.IServices
 {
-    public interface IPostsService : IBaseServices<BlogArticle>
+    public interface IPostsService : IServices<Posts>
     {
-        Task<PageModel<BlogViewModels>> getBlogList(int page, int pageSize, Expression<Func<BlogArticle, bool>> where);
+        Task<PageModel<BlogViewModels>> getBlogList(int page, int pageSize);
     }
 }

@@ -1,50 +1,42 @@
-using System;
-using SqlSugar;
+﻿using System;
 
 namespace Blog.Api.Models
 {
-    public class BlogArticle
+    public class Posts
     {
         /// <summary>
         /// 主键
         /// </summary>
         /// 这里之所以没用RootEntity，是想保持和之前的数据库一致，主键是bID，不是Id
-        [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int bId { get; set; }
         /// <summary>
         /// 创建人
         /// </summary>
-        [SugarColumn(Length = 60, IsNullable = true)]
         public string bsubmitter { get; set; }
 
         /// <summary>
         /// 创建人
         /// </summary>
-        [SugarColumn(IsNullable = true)]
         public int bsubmitterId { get; set; }
 
         /// <summary>
         /// BlogViewModels
         /// </summary>
-        [SugarColumn(Length = 256, IsNullable = true)]
         public string btitle { get; set; }
 
         /// <summary>
         /// 类别
         /// </summary>
-        [SugarColumn(Length = int.MaxValue, IsNullable = true)]
         public string bcategory { get; set; }
 
         /// <summary>
         /// 类别
         /// </summary>
-        [SugarColumn(IsNullable = true)]
         public long bcategoryId { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnDataType = "text")]
         public string bcontent { get; set; }
 
         /// <summary>
@@ -69,13 +61,11 @@ namespace Blog.Api.Models
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(Length = int.MaxValue, IsNullable = true)]
         public string bRemark { get; set; }
 
         /// <summary>
         /// 逻辑删除
         /// </summary>
-        [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
     }
 }

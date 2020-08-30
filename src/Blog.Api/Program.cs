@@ -1,5 +1,6 @@
 using System;
 using Autofac.Extensions.DependencyInjection;
+using Blog.Api.Model.EntityFrameworkCore;
 using Blog.Api.Models;
 using log4net;
 using Microsoft.AspNetCore.Hosting;

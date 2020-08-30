@@ -88,7 +88,7 @@ namespace Blog.Common
             }
             else
             {
-                return default(TEntity);
+                return default;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Blog.Common
         {
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return 0;
                 else
                     return redisConnection.GetDatabase().SortedSetAdd(key, members.Select((pair) => new SortedSetEntry(pair.Key, pair.Value)).ToArray(), CommandFlags.None);
@@ -148,7 +148,7 @@ namespace Blog.Common
         {
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return 0;
                 else
                     return redisConnection.GetDatabase().SortedSetIncrement(key, member, score);
@@ -172,7 +172,7 @@ namespace Blog.Common
         {
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return 0;
                 else
                     return redisConnection.GetDatabase().SortedSetDecrement(key, member, score);
@@ -203,7 +203,7 @@ namespace Blog.Common
         {
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return 0;
                 else
                     return redisConnection.GetDatabase().SortedSetRemove(key, members.Select(e => new RedisValue(e)).ToArray());
@@ -230,7 +230,7 @@ namespace Blog.Common
             Dictionary<string, double> ranks = new Dictionary<string, double>();
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return ranks;
                 else
                 {
@@ -253,7 +253,7 @@ namespace Blog.Common
         {
             try
             {
-                if ((object)key == null)
+                if (key is null)
                     return 0;
                 else
                     return redisConnection.GetDatabase().SortedSetScore(key, member) ?? 0;

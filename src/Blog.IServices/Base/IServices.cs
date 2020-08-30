@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Blog.Models;
-using SqlSugar;
+using System.Linq;
 
 namespace Blog.IServices.Base
 {

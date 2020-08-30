@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using Blog.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Api.Model.EntityFrameworkCore
 {

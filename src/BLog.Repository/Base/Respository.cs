@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Blog.Api.Model.EntityFrameworkCore;
+using Blog.Api.Models;
 using Blog.IRepository.Base;
-using Blog.IRepository.IUnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Repository.Base
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
-        private readonly IUnitOfWorktest _unitOfWork;
+        //private readonly IUnitOfWorktest _unitOfWork;
         protected readonly DbSet<TEntity> DbSet;
         private EfcoreDbContext _db;
         public Repository(EfcoreDbContext context)
@@ -34,7 +34,10 @@ namespace Blog.Repository.Base
         {
             return DbSet;
         }
-
+        public Task<List<TEntity>> GetAllAsync()
+        {
+            return DbSet.AsQueryable().ToListAsync();
+        }
         public virtual void Update(TEntity obj)
         {
             DbSet.Update(obj);

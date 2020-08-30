@@ -5,7 +5,7 @@ using Blog.Repository.Base;
 
 namespace Blog.Repository
 {
-    public class PostsRespository : Repository<BlogArticle>, IPostsRespository
+    public class PostsRespository : Repository<Posts>, IPostsRespository
     {
         public PostsRespository(EfcoreDbContext context) : base(context)
         {
